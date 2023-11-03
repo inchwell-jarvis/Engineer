@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "登录",
+  "titleNView": false,
+  "usingComponents": {
+    "mpopup": "/components/xuan-popup/xuan-popup"
+  }
+}

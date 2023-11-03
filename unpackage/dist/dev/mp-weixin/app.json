@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/index/index",
+    "pages/news/news",
+    "pages/home/works/work.1",
+    "pages/home/works/work.2",
+    "pages/home/works/work.3",
+    "pages/home/works/work.4",
+    "pages/home/works/work.5",
+    "pages/home/works/work.6",
+    "pages/home/works/work.7",
+    "pages/home/works/work.8",
+    "pages/home/works/detailed/Add_order",
+    "pages/home/works/detailed/Editfile",
+    "pages/home/works/detailed/details",
+    "pages/home/works/TEXT/Manual/Manual",
+    "pages/home/works/TEXT/stock/stock",
+    "pages/Logo/Logo",
+    "pages/home/works/Order/Order",
+    "pages/home/works/one/one",
+    "pages/home/works/QRcode/code",
+    "pages/home/works/Spareparts/classification",
+    "pages/home/works/Spareparts/Navigationindetail",
+    "pages/home/works/Spareparts/drawing",
+    "pages/home/works/Spareparts/ProductDetails",
+    "pages/home/works/Spareparts/ShoppingCart",
+    "pages/home/works/Spareparts/Buy",
+    "pages/home/works/maintenance/maintenance",
+    "pages/home/works/Spareparts/qielxr",
+    "pages/home/works/Spareparts/drawings"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#333333",
+    "selectedColor": "#33a5e0",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "static/icon/tabbar/icon_0/shouye.png",
+        "selectedIconPath": "static/icon/tabbar/icon_1/shouye.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/news/news",
+        "iconPath": "static/icon/tabbar/icon_0/xiaoxizhongxin.png",
+        "selectedIconPath": "static/icon/tabbar/icon_1/xiaoxizhongxin.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/icon/tabbar/icon_0/wode.png",
+        "selectedIconPath": "static/icon/tabbar/icon_1/wode.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap7.json"
+}

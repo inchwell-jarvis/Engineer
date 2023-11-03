@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "编辑日报",
+  "usingComponents": {
+    "an-upload-img": "/components/an-uploadImg/an-uploadImg"
+  }
+}

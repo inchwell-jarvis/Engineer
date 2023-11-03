@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "设备说明书",
+  "usingComponents": {
+    "uni-collapse": "/components/uni-collapse/uni-collapse",
+    "uni-collapse-item": "/components/uni-collapse-item/uni-collapse-item"
+  }
+}

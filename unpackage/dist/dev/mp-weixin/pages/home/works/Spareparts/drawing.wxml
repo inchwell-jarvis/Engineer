@@ -1,0 +1,1 @@
+<view class="content data-v-34710d81">{{'drawings\n\t'+this.url+''}}</view>

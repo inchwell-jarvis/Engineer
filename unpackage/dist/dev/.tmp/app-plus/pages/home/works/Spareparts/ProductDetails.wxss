@@ -1,0 +1,270 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.head.data-v-87348140 {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background-color: #FFFFFF;
+}
+.head image.data-v-87348140 {
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: 50px auto;
+    box-sizing: border-box;
+}
+.add.data-v-87348140 {
+  width: 100%;
+  height: 150px;
+  background: #57dddd;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.add text.data-v-87348140 {
+    display: block;
+}
+.add .Describe.data-v-87348140 {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+.add .UnitPrice.data-v-87348140 {
+    color: red;
+    font-size: 14px;
+}
+.add .UnitPrice ._span.data-v-87348140 {
+      font-size: 20px;
+}
+.add .AssemblyUnitPrice.data-v-87348140 {
+    float: right;
+}
+.add .AssemblyUnitPrice ._span.data-v-87348140 {
+      color: red;
+      font-size: 20px;
+      margin-right: 10px;
+}
+.add .Branch.data-v-87348140 {
+    font-weight: bold;
+    margin-top: 10px;
+}
+.gou.data-v-87348140 {
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.gou view.data-v-87348140 {
+    width: 30%;
+    float: right;
+    height: 100%;
+    text-align: center;
+    line-height: 30px;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+.gou .gous.data-v-87348140 {
+    background-color: #F5C443;
+    border-radius: 30px 0 0 30px;
+}
+.gou .buy.data-v-87348140 {
+    background: #EC682C;
+    border-radius: 0 30px 30px 0;
+}
+.gou .icon.data-v-87348140 {
+    width: 40px;
+    height: 50px;
+    float: left;
+    margin-left: 50px;
+    background-color: #007AFF;
+}
+.gou .icon image.data-v-87348140 {
+      width: 20px;
+      height: 20px;
+      display: block;
+}
+.gou .icon text.data-v-87348140 {
+      font-size: 14px;
+}
+.footer.data-v-87348140 {
+  position: fixed;
+  bottom: 0rpx;
+  width: 92%;
+  padding: 0 4%;
+  height: 99rpx;
+  border-top: solid 1rpx #eee;
+  background-color: #fff;
+  z-index: 2;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.footer .icons.data-v-87348140 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    height: 80rpx;
+    margin-left: -4%;
+}
+.footer .icons .boxx.data-v-87348140 {
+      width: 80rpx;
+      height: 80rpx;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+              justify-content: center;
+      -webkit-flex-wrap: wrap;
+              flex-wrap: wrap;
+      margin-left: 30px;
+}
+.footer .icons .boxx .icon.data-v-87348140 {
+        width: 20px;
+        height: 20px;
+        font-size: 40rpx;
+        color: #828282;
+}
+.footer .icons .boxx .icon image.data-v-87348140 {
+          width: 100%;
+          height: 100%;
+}
+.footer .icons .boxx .text.data-v-87348140 {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+                justify-content: center;
+        width: 100%;
+        font-size: 22rpx;
+        color: #666;
+}
+.footer .btn.data-v-87348140 {
+    height: 80rpx;
+    border-radius: 40rpx;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    margin-right: -2%;
+}
+.footer .btn .joinCart.data-v-87348140,
+    .footer .btn .buy.data-v-87348140 {
+      height: 80rpx;
+      padding: 0 40rpx;
+      color: #fff;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+              align-items: center;
+      font-size: 28rpx;
+}
+.footer .btn .joinCart.data-v-87348140 {
+      background-color: #dd524d;
+}
+.footer .btn .buy.data-v-87348140 {
+      background-color: #f0ad4e;
+}
+.info-box.data-v-87348140 {
+  width: 92%;
+  padding: 20rpx 4%;
+  background-color: #fff;
+  margin-bottom: 20rpx;
+}
+.goods-info .price.data-v-87348140 {
+  font-size: 46rpx;
+  font-weight: 600;
+  color: #dd524d;
+}
+.goods-info .title.data-v-87348140 {
+  font-size: 30rpx;
+}
+.kongbai.data-v-87348140 {
+  width: 95%;
+  background-color: #d8d8d8;
+  height: 40px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin: auto;
+  margin-bottom: 10px;
+}
+.kongbai view.data-v-87348140 {
+    height: 40px;
+    line-height: 40px;
+    float: left;
+    display: block;
+    font-weight: bold;
+}
+.kongbai .chu.data-v-87348140 {
+    width: 120px;
+    height: 30px;
+    float: right;
+    margin-top: 5px;
+    height: 30px;
+}
+.kongbai .chu view.data-v-87348140 {
+      width: 50%;
+      float: right;
+      color: #333333;
+      text-align: center;
+      line-height: 30px;
+      background: #FFFFFF;
+      height: 30px;
+}
+.kongbai .chu .left.data-v-87348140 {
+      border-radius: 30px 0 0 30px;
+}
+.kongbai .chu .right.data-v-87348140 {
+      border-radius: 0 30px 30px 0;
+}
+.kongbai .chuchu.data-v-87348140 {
+    background-color: #FFFFFF;
+    border-radius: 30px;
+}
+.kongbai .chuchu checkbox-group.data-v-87348140 {
+      width: 32px;
+      height: 67px;
+      display: block;
+      margin: auto;
+      border: none;
+}
+.kongbai .chuchu uni-checkbox .uni-checkbox-input.data-v-87348140 {
+      border: none;
+}
+

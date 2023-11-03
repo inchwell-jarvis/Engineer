@@ -1,0 +1,1 @@
+<view class="box"><block wx:for="{{data}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view data-event-opts="{{[['tap',[['qie',['$0'],[[['data','',index]]]]]]]}}" class="kuang" bindtap="__e"><text class="tet1">{{item.Name}}</text><text class="tet2">{{item.Mobile||'暂无'}}</text></view></block></view>

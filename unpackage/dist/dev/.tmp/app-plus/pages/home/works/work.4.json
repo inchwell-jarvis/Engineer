@@ -1,0 +1,16 @@
+{
+  "navigationBarTitleText": "工作日报",
+  "onReachBottomDistance": 500,
+  "bounce": "none",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "添加",
+        "fontSize": "16",
+        "float": "right",
+        "color": "#333333"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

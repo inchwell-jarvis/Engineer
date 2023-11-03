@@ -1,0 +1,1 @@
+<view class="box"><block wx:for="{{imgurl}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view data-event-opts="{{[['tap',[['enter',[index]]]]]}}" class="img" bindtap="__e"><image src="{{item.url}}" mode></image><text>{{item.text}}</text></view></block></view>

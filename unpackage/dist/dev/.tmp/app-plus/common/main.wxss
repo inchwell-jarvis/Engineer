@@ -1,0 +1,36 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*每个页面公共css */
+page,
+page,
+uni-page-body,
+uni-page-refresh {
+	width: 100%;
+	height: 100%;
+	background: #f7f6f6;
+	font-size: 14px;
+}
+.box{
+	width: 100%;
+	height: 100%;
+	background: #efeeee;
+	overflow: auto;
+}
+
+
