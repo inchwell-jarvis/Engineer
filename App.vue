@@ -13,7 +13,7 @@
 			// #ifndef H5 
 			const me = this
 			plus.runtime.getProperty(plus.runtime.appid, function(inf) {
-				me.$store.state.currentVersion = inf.version
+				me.$store.state.app_version = inf.version
 				uni.request({
 					url: me.$store.state.url + 'System/GetSysVersion',
 					data: {
@@ -100,7 +100,7 @@
 </script>
 <style lang="scss">
 	/* 注意要写在第一行，同时给style标签加入lang="scss"属性 */
-	@import '@/saxo.scss';
+
 	@import "uview-ui/index.scss";
 	@import "@/components/hx-navbar/iconfont.css";
 

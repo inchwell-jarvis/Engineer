@@ -8,9 +8,7 @@
 		</p>
 
 		<!-- 消息列表 -->
-		<div class="msg_box">
-
-
+		<div class="msg_list">
 			<view class="operate" v-for="(item,index) in Msg" @tap="seeDetails(item)">
 				<div class="icon">
 					<u-image v-if='!item.Read' width="30px" height="30px" src="/static/news/news.png"></u-image>
@@ -27,11 +25,8 @@
 					<text>{{item.Con}}</text>
 				</div>
 			</view>
-
-
 			<u-empty v-if='Msg.length  == 0' text="消息列表为空" mode="message"></u-empty>
 		</div>
-
 
 		<!-- 与包裹页面所有内容的元素u-page同级，且在它的下方 -->
 		<u-tabbar v-model="current" :list="list" bg-color='#ffffff' style='border-radius: 10px;' active-color='#486eff'
@@ -87,7 +82,6 @@
 		methods: {
 			// 一键已读
 			OneTabAllRead: function() {
-
 				this.index = 0
 				if (this.Msg.length != 0) {
 					if (this.Msg.length > 10) {
@@ -100,7 +94,6 @@
 						this.ReadJournalism(this.Msg[index].ID)
 					}
 				}
-
 			},
 			// 标为已读
 			ReadJournalism: function(SoId) {
@@ -135,7 +128,6 @@
 				});
 			},
 			init: function() {
-
 				var obj = {
 					method: 'GET',
 					url: this.$store.state.url + 'System/GetJournalisms',
@@ -229,7 +221,7 @@
 			}
 		}
 
-		.msg_box {
+		.msg_list {
 			width: 100%;
 			height: calc(100% - 100px);
 			overflow: auto;

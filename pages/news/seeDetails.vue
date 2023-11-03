@@ -1,16 +1,13 @@
 <template>
 	<view class="box">
-		<view class="head">
-			<!-- <span></span> -->
+<!-- 		<view class="head">
 			<view class="left" @tap="returnView()">
 				<u-icon name="arrow-left" color="##ffffff" size="40" style='float:left;margin-top: 17px;margin-left: 20px;'  ></u-icon>
 			</view>
 			<view class="Con">
 				{{Tit}}
 			</view>
-
-			
-		</view>
+		</view> -->
 		
 		
 		
@@ -77,7 +74,6 @@
 	box-sizing: border-box;
 	background-color: #FFFFFF;
 	position: relative;
-	padding-top: 80px;
 	box-sizing: border-box;
 	
 	.head {

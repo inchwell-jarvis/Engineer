@@ -14,7 +14,7 @@
 
 			<u-grid-item index="permission">
 				<u-icon name="grid" :size="46"></u-icon>
-				<view class="grid-text">全部</view>
+				<view class="grid-text">权限</view>
 			</u-grid-item>
 			
 		</u-grid>

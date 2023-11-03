@@ -18,7 +18,8 @@
 					"bounce": "none" // 将回弹属性关掉
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "个人中心",
@@ -29,7 +30,8 @@
 					"bounce": "none" // 将回弹属性关掉
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/news/news",
 			"style": {
 				"navigationBarTitleText": "消息",
@@ -37,10 +39,12 @@
 				"app-plus": {
 					"titleNView": false,
 					"popGesture": "none",
-					"softinputNavBar": "none"
+					"softinputNavBar": "none",
+					"bounce": "none" // 将回弹属性关掉
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/work.1",
 			"style": {
 				"navigationBarTitleText": "工单管理",
@@ -48,12 +52,14 @@
 					"titleNView": false
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/work.2",
 			"style": {
 				"navigationBarTitleText": "订单列表"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/work.3",
 			"style": {
 				"navigationBarTitleText": "保养管理",
@@ -73,7 +79,8 @@
 				}
 
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/work.4",
 			"style": {
 				"navigationBarTitleText": "工作日报",
@@ -82,12 +89,14 @@
 					"titleNView": false
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/work.5",
 			"style": {
 				"navigationBarTitleText": "VIP客户回访"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/work.6",
 			"style": {
 				"navigationBarTitleText": "安装管理",
@@ -104,42 +113,53 @@
 					}
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/work.7",
 			"style": {
-				"navigationBarTitleText": "零配件"
+				"navigationBarTitleText": "零配件",
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/work.8",
 			"style": {
 				"navigationBarTitleText": "全部"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/detailed/Add_order",
 			"style": {
 				"navigationBarTitleText": "创建日报"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/detailed/Editfile",
 			"style": {
 				"navigationBarTitleText": "编辑日报"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/detailed/details",
 			"style": {
 				"navigationBarTitleText": "查看日报详情"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/TEXT/Manual/Manual",
 			"style": {
 				"navigationBarTitleText": "设备说明书"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/TEXT/stock/stock",
 			"style": {
 				"navigationBarTitleText": "积压库存"
 			}
-		}, {
+		},
+		{
 			"path": "pages/Logo/Logo",
 			"style": {
 				"navigationBarTitleText": "登录",
@@ -149,7 +169,8 @@
 					"bounce": "none" // 将回弹属性关掉
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Order/Order",
 			"style": {
 				"navigationBarTitleText": "订单详情"
@@ -160,62 +181,80 @@
 			"style": {
 				"navigationBarTitleText": "指派"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/one/one",
 			"style": {
 				"navigationBarTitleText": "工单详情"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/QRcode/code",
 			"style": {
 				"navigationBarTitleText": " "
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Spareparts/classification",
 			"style": {
-				"navigationBarTitleText": "零配件"
+				"navigationBarTitleText": "零配件",
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Spareparts/Navigationindetail",
 			"style": {
 				"navigationBarTitleText": " "
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Spareparts/ProductDetails",
 			"style": {
 				"navigationBarTitleText": "商品详情"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Spareparts/ShoppingCart",
 			"style": {
 				"navigationBarTitleText": "购物车"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Spareparts/Buy",
 			"style": {
 				"navigationBarTitleText": "确认订单"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/maintenance/maintenance",
 			"style": {
 				"navigationBarTitleText": "保养"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Spareparts/qielxr",
 			"style": {
 				"navigationBarTitleText": " "
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Spareparts/drawings",
 			"style": {
 				"navigationBarTitleText": " "
 			}
-		}, {
-			"path": "pages/index/mine/Update",
+		},
+		{
+			"path": "pages/index/check_updates/index",
 			"style": {
-				"navigationBarTitleText": "检查更新"
+				"navigationBarTitleText": "检查更新",
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/equipment/equipment",
 			"style": {
 				"navigationBarTitleText": "录设备",
@@ -232,61 +271,70 @@
 				}
 
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Trainingcase/Trainingcase",
 			"style": {
 				"navigationBarTitleText": "培训案例"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Trainingcase/Trainingcaselist",
 			"style": {
 				"navigationBarTitleText": "培训案例"
 			}
-		}, {
+		},
+		{
 			"path": "components/webview/webview",
 			"style": {
 				"navigationBarTitleText": "详情"
 			}
-		}, {
+		},
+		{
 			"path": "pages/Logo/face",
 			"style": {
 				"navigationBarTitleText": "人脸识别"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Regulations/Regulations",
 			"style": {
 				"navigationBarTitleText": "规章制度"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/one/textVideo",
 			"style": {
 				"navigationBarTitleText": "报修视频"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/InstallationTask/InstallationTask",
 			"style": {
 				"navigationBarTitleText": "任务详情"
 			}
-		}
-
-		, {
+		},
+		{
 			"path": "pages/home/works/works/works",
 			"style": {
 				"navigationBarTitleText": "任务列表"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/maintenance/recording",
 			"style": {
 				"navigationBarTitleText": "保养记录",
 				"onReachBottomDistance": 10, //触发的距离
 				"backgroundTextStyle": "light" // 样式只有 dark 和 light
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/maintenance/Recorddetails",
 			"style": {
 				"navigationBarTitleText": "保养详情"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Firstvisit/Firstvisit",
 			"style": {
 				"navigationBarTitleText": "客户首访列表",
@@ -311,44 +359,52 @@
 				// 	}
 				// }
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Firstvisit/AddFirstvisit",
 			"style": {
 				"navigationBarTitleText": "添加客户首访"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Firstvisit/magFirstvisit",
 			"style": {
 				"navigationBarTitleText": "编辑"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Firstvisit/CreateCusLinkMan",
 			"style": {
 				"navigationBarTitleText": "添加联系人"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Firstvisit/addGetProductMinis",
 			"style": {
 				"navigationBarTitleText": "添加设备"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/Firstvisit/CreateProuctionList",
 			"style": {
 				"navigationBarTitleText": "设备分类",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/EquipmentEvaluation/EquipmentEvaluation",
 			"style": {
 				"navigationBarTitleText": "选择设备"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/EquipmentEvaluation/report",
 			"style": {
 				"navigationBarTitleText": "设备评定"
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/maintenance/SelectConsumables",
 			"style": {
 				"navigationBarTitleText": "选择耗材",
@@ -357,142 +413,167 @@
 					"bounce": "none"
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/maintenance/UsageOfConsumables",
 			"style": {
 				"navigationBarTitleText": "历史耗材使用情况",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
-			"path": "pages/index/Company/Company",
+		},
+		{
+			"path": "pages/index/about_company/index",
 			"style": {
-				"navigationBarTitleText": "关于公司"
+				"navigationBarTitleText": "关于公司",
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/woke6/woke6",
 			"style": {
 				"navigationBarTitleText": "历史记录",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/woke6/BJwork6",
 			"style": {
 				"navigationBarTitleText": "任务详情",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/index/UserManual/UserManual",
 			"style": {
 				"navigationBarTitleText": "使用手册",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/index/UserManual/Details/Details",
 			"style": {
 				"navigationBarTitleText": "详情",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/one/OneListLS",
 			"style": {
 				"navigationBarTitleText": "工单历史",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/one/OneAddGcs",
 			"style": {
 				"navigationBarTitleText": "工单详情",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/Allocate/Allocate",
 			"style": {
 				"navigationBarTitleText": "人员调配",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/DelaysMaintenance/DelaysMaintenance",
 			"style": {
 				"navigationBarTitleText": "保养延迟",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/Spareparts/ReXiaoShangPin",
 			"style": {
 				"navigationBarTitleText": "热销商品",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/gcsmap/gcsmap",
 
 			"style": {
 				"navigationBarTitleText": "工程师地图 - 研发中",
 				"enablePullDownRefresh": false,
 				"app-plus": {
-					"bounce": "none" //禁用原生导航栏
+					"bounce": "none" //
 				}
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/BindingSensor/BindingSensor",
 			"style": {
 				"navigationBarTitleText": "绑定传感器",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/news/seeDetails",
 			"style": {
-				"navigationBarTitleText": "",
+				"navigationBarTitleText": "详情",
 				"enablePullDownRefresh": false,
 				"app-plus": {
-					"titleNView": false,
 					"popGesture": "none",
-					"softinputNavBar": "none"
+					"softinputNavBar": "none",
+					"bounce": "none" //
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/home/works/CuiCu/CuiCu",
 			"style": {
 				"navigationBarTitleText": "工单催促",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/Spareparts/Spareparts",
 			"style": {
 				"navigationBarTitleText": "查找设备",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/GetCustomerEqu/GetCustomerEqu",
 			"style": {
 				"navigationBarTitleText": "查看设备",
 				"enablePullDownRefresh": false
 			}
-
-		}
-
-		, {
+		},
+		{
 			"path": "pages/home/works/EquipmentInventorySheet/EquipmentInventorySheet",
 			"style": {
 				"navigationBarTitleText": "设备清点列表",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/EquipmentInventorySheet/EquipmentInventorySheetDetailed",
 			"style": {
 				"navigationBarTitleText": "设备清点",
@@ -502,7 +583,8 @@
 				}
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/EquipmentInventorySheet/EquipmentInventorySheetEQ",
 			"style": {
 				"navigationBarTitleText": "清点中",
@@ -512,14 +594,16 @@
 				}
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/bonus/bonus",
 			"style": {
 				"navigationBarTitleText": "奖金明细",
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/Document/index",
 			"style": {
 				"navigationBarTitleText": "文档中心",
@@ -529,75 +613,82 @@
 				}
 			}
 
-		}, {
+		},
+		{
 			"path": "pages/home/works/DelaysMaintenance/edit/edit",
 			"style": {
 				"navigationBarTitleText": "编辑保养延迟",
 				"enablePullDownRefresh": false
 			}
 
-		}
-	    ,{
-            "path" : "pages/home/works/MaintenanceTask/MaintenanceTask",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "保养任务",
+		},
+		{
+			"path": "pages/home/works/MaintenanceTask/MaintenanceTask",
+			"style": {
+				"navigationBarTitleText": "保养任务",
 				"onReachBottomDistance": 100 //触发的距离
-            }
-            
-        }
-        ,{
-            "path" : "pages/home/works/MaintenanceTask/MaintenanceTasksEdit",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "编辑保养任务",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/home/works/Firstvisit/device_list",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "查看已扫码录入的设备",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/index/functional_testing/functional_testing",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "功能测试",
-                "enablePullDownRefresh": false
-            }
-        },{
-            "path" : "pages/index/functional_testing/map",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "定位测试",
-                "enablePullDownRefresh": false
-            }
-        }
-        ,{
-            "path" : "pages/index/functional_testing/camera",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "拍摄测试",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/index/functional_testing/permission",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "全部权限",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+			}
+
+		},
+		{
+			"path": "pages/home/works/MaintenanceTask/MaintenanceTasksEdit",
+			"style": {
+				"navigationBarTitleText": "编辑保养任务",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/home/works/Firstvisit/device_list",
+			"style": {
+				"navigationBarTitleText": "查看已扫码录入的设备",
+				"enablePullDownRefresh": false
+			}
+
+		},
+		{
+			"path": "pages/index/functional_testing/functional_testing",
+			"style": {
+				"navigationBarTitleText": "功能测试",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
+			}
+		},
+		{
+			"path": "pages/index/functional_testing/map",
+			"style": {
+				"navigationBarTitleText": "定位测试",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
+			}
+		},
+		{
+			"path": "pages/index/functional_testing/camera",
+			"style": {
+				"navigationBarTitleText": "拍摄测试",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
+			}
+
+		},
+		{
+			"path": "pages/index/functional_testing/permission",
+			"style": {
+				"navigationBarTitleText": "全部权限",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
+			}
+
+		}
+	],
 
 
 	"globalStyle": {

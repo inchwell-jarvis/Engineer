@@ -6,13 +6,13 @@
 		<view class="Me">
 			<u-avatar src="xxx" size='large'></u-avatar>
 			<view class="Me1Right">
-				<h3>{{username || '请登录'}}</h3>
+				<h2>{{'赵鸿飞' || '请登录'}}</h2>
 				<br>
-				<p style='text-indent:2em'>---</p>
+				<p >英之杰天祥</p>
+				<!-- <p style='text-indent:2em'>英之杰天祥</p> -->
 			</view>
 		</view>
-
-
+		
 		<!-- 
 		 navigator 需要设置背景全透明，不然在点击的时候会显示灰色背景
 		 -->
@@ -27,7 +27,7 @@
 			</view>
 		</navigator>
 
-		<navigator :url="'./Company/Company'" style="background-color: rgba(0, 0, 0, 0);">
+		<navigator :url="'./about_company/index'" style="background-color: rgba(0, 0, 0, 0);">
 			<view class="operate">
 				<div class="icon">
 					<u-image width="30px" height="30px" src="/static/MePageIcon/folder.png">></u-image>
@@ -49,7 +49,7 @@
 			</view>
 		</navigator>
 
-		<navigator :url="'./mine/Update'" style="background-color: rgba(0, 0, 0, 0);">
+		<navigator :url="'./check_updates/index'" style="background-color: rgba(0, 0, 0, 0);">
 			<view class="operate">
 				<div class="icon">
 					<u-image width="30px" height="30px" src="/static/MePageIcon/folder.png">></u-image>
