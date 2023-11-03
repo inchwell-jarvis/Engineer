@@ -271,7 +271,7 @@
 
 
 			},
-			UpdateCusVisitState: function(index) {
+			async UpdateCusVisitState(index) {
 				console.log(this.current)
 				console.log(this.Dto)
 				if (index == 3) {
@@ -377,67 +377,40 @@
 
 				// 确保this功能正常
 				let me = this
+				
+				// 获取定位
+				let ip = await this.getCoordinates();
+				console.log(ip)
 
-				uni.getLocation({
-					type: 'wgs84',
-					altitude: false,
-					geocode: false,
-					success: function(ip) {
-						// console.log('获取定位')
-						console.log('经度：' + ip.longitude);
-						console.log('纬度：' + ip.latitude);
-
-						if (ip.longitude == '5e-324') {
-							uni.showToast({
-								title: "地理位置获取失败,请检查网络与定位！",
-								icon: "none"
-							})
-							return false
+				me.$http(obj).then((res) => {
+					var obj2 = {
+						url: me.$store.state.url + 'CRM/UpdateCusVisitState',
+						method: 'POST',
+						header: me.$store.state.token,
+						data: {
+							Id: me.$store.state.FirstvisitIdindexId,
+							str: index,
+							longitude: String(ip.longitude),
+							latitude: String(ip.latitude),
 						}
-						uni.showToast({
-							title: String(ip.longitude) +'-'+String(ip.latitude),
-							icon: "none"
-						})
-						// 成功
-						me.$http(obj).then((res) => {
-							var obj2 = {
-								url: me.$store.state.url + 'CRM/UpdateCusVisitState',
-								method: 'POST',
-								header: me.$store.state.token,
-								data: {
-									Id: me.$store.state.FirstvisitIdindexId,
-									Str: index,
-									Longitude: String(ip.longitude),
-									Latitude: String(ip.latitude),
-								}
-							}
-							console.log(obj2)
-							console.log('---------------------------------------------')
-							me.$http(obj2).then((res) => {
-								me.$store.state.indexcurrent = index
-								if (index == 3) {
-									uni.navigateTo({
-										url: '/pages/home/works/Firstvisit/Firstvisit',
-									})
-								}
-								if (index == 0) {
-									uni.navigateTo({
-										url: '/pages/home/works/Firstvisit/Firstvisit',
-									})
-								}
-								me.init()
+					}
+					console.log(obj2)
+					console.log('---------------------------------------------')
+					me.$http(obj2).then((res) => {
+						me.$store.state.indexcurrent = index
+						if (index == 3) {
+							uni.navigateTo({
+								url: '/pages/home/works/Firstvisit/Firstvisit',
 							})
-						})
-
-					},
-					// 报错
-					fail: (err) => {
-						uni.showToast({
-							title: "地理位置获取失败,请开通权限！",
-							icon: "none"
-						})
-					},
-				});
+						}
+						if (index == 0) {
+							uni.navigateTo({
+								url: '/pages/home/works/Firstvisit/Firstvisit',
+							})
+						}
+						me.init()
+					})
+				})
 			},
 			CreateCusLinkMan: function() {
 				var obj = {

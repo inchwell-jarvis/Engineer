@@ -28,9 +28,9 @@ const API_POST = (url, data) => {
 						setTimeout(function() {
 							uni.hideLoading();
 						}, 100);
-						
+
 						let Data = {}
-						
+
 						// 判断是否为JSON类型  新版为Obiect 旧版为JSON
 						if (typeof res.data === "string") {
 							Data = JSON.parse(res.data);
@@ -50,12 +50,8 @@ const API_POST = (url, data) => {
 						resolve(Data)
 					},
 				})
-
-
 			}
 		})
-
-
 	})
 }
 

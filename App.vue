@@ -93,17 +93,13 @@
 					plus.nativeUI.toast("安装更新文件失败[" + e.code + "]：" + e.message);
 				});
 			}
-		},
-
-
+		}
 	}
 </script>
 <style lang="scss">
 	/* 注意要写在第一行，同时给style标签加入lang="scss"属性 */
-
 	@import "uview-ui/index.scss";
 	@import "@/components/hx-navbar/iconfont.css";
-
 	/*每个页面公共css */
 	html,
 	body,
