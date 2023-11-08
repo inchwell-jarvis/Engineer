@@ -1,9 +1,12 @@
 import $store from '../store/index.js'
-const API_POST = (url, data) => {
+const API_POST = (url, data, show = false) => {
 	return new Promise((resolve, reject) => {
-		uni.showLoading({
-			title: '加载中'
-		});
+		if (show) {
+			uni.showLoading({
+				title: '加载中'
+			});
+		}
+
 		// 获取 token 
 		uni.getStorage({
 			key: 'Token',

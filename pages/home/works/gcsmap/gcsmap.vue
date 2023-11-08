@@ -318,24 +318,16 @@
 					});
 			},
 			//定位方法;获取当前的经纬度，也可以通过经纬度来获取当前的地理位置，比如：xx省、xx市、xx镇
-			getlocal: function() {
+			async getlocal() {
 				let _this = this;
 				var map = uni.createMapContext('maps', this).$getAppMap();
 				map.showUserLocation(true);
-
-				//获取当前定位
-				uni.getLocation({
-					type: 'wgs84',
-					success: function(res) {
-						// console.log('当前位置的经度：' + res.longitude);
-						// console.log('当前位置的纬度：' + res.latitude);
-						_this.longitude = res.longitude;
-						_this.latitude = res.latitude;
-
-						// _this.longitude = 39.519219;
-						// _this.latitude = 116.698215;
-					}
-				})
+				
+				// 获取定位
+				let ip = await this.getLocation();
+				console.log(ip)
+				_this.longitude = ip.longitude;
+				_this.latitude = ip.latitude;
 			},
 
 

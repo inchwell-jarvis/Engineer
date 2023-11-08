@@ -40,11 +40,11 @@
 		<!-- 当前状态 -->
 		<view class="card" @click="worksfun()">
 			<h3>当前状态</h3>
-	
+
 			<p v-if="Data.EnginnerState" :style="{ color: Data.EnginnerState.Detail == 'WaitStatus' ? 'red' : '#5b8eff' }">
 				{{ Data.EnginnerState.Detail == 'WaitStatus' ? '空闲 - - 检索到有未完成的任务，请及时校准' : Data.EnginnerState.Detail }}
 			</p>
-			
+
 			<span>点击校准</span>
 		</view>
 
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import API_POST from '../../utils/API_POST';
 export default {
 	data: function () {
 		return {
@@ -224,7 +225,7 @@ export default {
 			}
 
 			// 2 是打卡
-			if (row == 2) this.gcsDK();
+			if (row == 2) this.clock_in_fun();
 
 			// 3 是催促
 			if (row == 3) {
@@ -241,67 +242,32 @@ export default {
 			}
 		},
 		// 工程师打卡
-		gcsDK: function () {
-			var My = this;
-			uni.getLocation({
-				type: 'wgs84',
-				altitude: false,
-				geocode: false,
-				success: function (IP) {
-					console.log(IP);
-					if (IP.longitude == '5e-324') {
-						uni.showToast({
-							title: '地理位置获取失败,请检查网络与定位！',
-							icon: 'none'
+		async clock_in_fun () {
+			let me = this
+			// 获取定位
+			let IP = await this.getLocation();
+			console.log(IP)
+
+			API_POST('system/UploadMapCoordinate',{Longitude: String(IP.longitude),Latitude: String(IP.latitude)})
+			.then((res) => {
+				console.log(res)
+				var text = '经度：' + IP.longitude + ' - '  + '纬度：' + IP.latitude;
+				// 判断平台
+				switch (uni.getSystemInfoSync().platform) {
+					// 安卓使用 UNI UI
+					case 'android':
+						me.content = text;
+						me.show = true;
+						break;
+					// 苹果 使用原生
+					case 'ios':
+						uni.showModal({
+							title: '打卡成功！',
+							content: text,
 						});
-						return false;
-					}
-					var obj = {
-						method: 'POST',
-						url: My.$store.state.url.split('/api/')[0] + '/api/' + 'system/UploadMapCoordinate',
-						data: {
-							Longitude: String(IP.longitude),
-							Latitude: String(IP.latitude)
-						}
-					};
-					My.$httpnone(obj).then((res) => {
-						var text = '经度：' + IP.longitude + '\n';
-						text += '纬度：' + IP.latitude;
-						// 判断平台
-						switch (uni.getSystemInfoSync().platform) {
-							// 安卓使用 UNI UI
-							case 'android':
-								My.content = text;
-								My.show = true;
-								break;
-							// 苹果 使用原生
-							case 'ios':
-								uni.showModal({
-									title: '打卡成功！',
-									content: text,
-									success: function (resTwo) {
-										if (resTwo.confirm) {
-											console.log('用户点击确定');
-										} else if (resTwo.cancel) {
-											console.log('用户点击取消');
-										}
-									}
-								});
-								break;
-						}
-					});
-				},
-				complete: () => {
-					// console.log('正在获取定位')
-				},
-				fail: (err) => {
-					uni.showToast({
-						title: '地理位置获取失败,请开通权限！',
-						icon: 'none'
-					});
-					// console.log('init')
+						break;
 				}
-			});
+			})
 		},
 
 		GetIndexBanners: function () {
@@ -594,7 +560,7 @@ export default {
 		border-radius: 5px;
 		position: relative;
 		overflow: hidden;
-		span{
+		span {
 			display: block;
 			position: absolute;
 			right: 10px;

@@ -7,16 +7,13 @@
 			<u-cell-item icon="map-fill" title="纬度" :value="IP.longitude" :arrow="false"></u-cell-item>
 			<u-cell-item icon="hourglass-half-fill" title="耗时" :value="IP.elapsedTime" :arrow="false"></u-cell-item>
 			<u-cell-item icon="clock-fill" title="时间" :value="IP.acquisitionTime" :arrow="false"></u-cell-item>
+			<u-cell-item icon="tags-fill" title="位置" :value="IP.address_2" :arrow="false"></u-cell-item>
 		</u-cell-group>
 
 		<u-button type="primary" @click="getIP" style="margin-top: 100px">
 			获取定位 &emsp;
 			<u-loading v-if="get" mode="flower" size="30"></u-loading>
 		</u-button>
-		<view class="title">上传定位：</view>
-		<view class="test_flex_row_between">
-			<text class="btn bg_red" @click="postip()">上传当前获取到的位置</text>
-		</view>
 	</view>
 </template>
 
@@ -31,31 +28,9 @@ export default {
 	methods: {
 		async getIP() {
 			this.get = true;
-			this.IP = await this.getCoordinates();
+			this.IP = await this.getLocation();
 			this.get = false;
 			console.log(this.IP);
-			console.log(this.$store.state.ip);
-		},
-		postip() {
-			if (this.IP.latitude && this.IP.longitude) {
-				let data = {
-					latitude: String(this.IP.latitude),
-					longitude: String(this.IP.longitude),
-				};
-				this.API_POST('system/UploadMapCoordinate', data).then((rv) => {
-					this.$refs.uTips.show({
-						title: '定位上传成功！',
-						type: 'success',
-						duration: '2300'
-					});
-				});
-			} else {
-				this.$refs.uTips.show({
-					title: '当前定位信息为空！',
-					type: 'error',
-					duration: '2300'
-				});
-			}
 		}
 	}
 };

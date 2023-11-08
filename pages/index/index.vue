@@ -6,7 +6,7 @@
 		<view class="Me">
 			<u-avatar src="xxx" size='large'></u-avatar>
 			<view class="Me1Right">
-				<h2>{{'赵鸿飞' || '请登录'}}</h2>
+				<h2>{{ username || '请登录'}}</h2>
 				<br>
 				<p >英之杰天祥</p>
 				<!-- <p style='text-indent:2em'>英之杰天祥</p> -->

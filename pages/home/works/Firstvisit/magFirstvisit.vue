@@ -379,7 +379,7 @@
 				let me = this
 				
 				// 获取定位
-				let ip = await this.getCoordinates();
+				let ip = await this.getLocation();
 				console.log(ip)
 
 				me.$http(obj).then((res) => {
