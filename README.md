@@ -39,5 +39,5 @@ git 会忽略某些文件
 | Android私钥密码      	| 123456         										|
 | Android证书文件路径  	| build/test.keystore 									|
 | IOS私钥证书      		| build/b76d51841bac4be2aca03251417731ab.p12           	|
-| IOS私钥密码      		| IPGB123456         									|
+| IOS私钥密码      		| anxuan14888         									|
 | IOS证书profile文件  	| build/for_gcs_dev.mobileprovision 					|
