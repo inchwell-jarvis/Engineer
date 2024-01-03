@@ -1,5 +1,8 @@
 <template>
 	<view class="box">
+		
+		<u-empty v-if='Data.length == 0' text="附近暂无安装任务" mode="message"></u-empty>
+		
 		<view v-for="(item,index) in Data" class="item" :key="index" @click="Assign(item)"  
 		 
 		 :style="[{background:(item.DataType == 2?'#fbffb5':'#fff')}]"

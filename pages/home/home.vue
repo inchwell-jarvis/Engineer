@@ -3,8 +3,13 @@
 		<!-- 标题 -->
 		<p class="tit">
 			主页
-			<span>{{ this.$store.state.app_version }}</span>
+			<!-- <span>{{ this.$store.state.app_version }}</span> -->
 		</p>
+
+		<!-- 弹窗 -->
+		<uni-popup ref="popup" type="dialog" style="z-index: 999">
+			<uni-popup-dialog type="input" :title="Title" :content="Content" :duration="2000" :before-close="true" @close="close" @confirm="confirm"></uni-popup-dialog>
+		</uni-popup>
 
 		<!-- 播放视频 -->
 		<view class="ZindexVideo" v-if="OPVideo">
@@ -23,11 +28,11 @@
 		</swiper>
 
 		<!-- 通知 -->
-		<u-notice-bar mode="horizontal" class="notice_bar" type="warning" :list="Scroll_text_at_bottom"></u-notice-bar>
+		<u-notice-bar v-if="$store.state.FormalService" mode="horizontal" class="notice_bar" type="warning" :list="Scroll_text_at_bottom"></u-notice-bar>
 
 		<!-- 一级图标 -->
 		<view class="content">
-			<view android:gravity="center" class="list" v-for="(item, index) in icon" :key="index" @tap="clickpath(index)">
+			<view android:gravity="center" class="list" v-for="(item, index) in $store.state.FormalService ? icon : icon_apple" :key="index" @tap="clickpath(index)">
 				<view v-if="index == 4 && Data.ReturnVisit != ''" class="degmdg">{{ Data.ReturnVisit }}</view>
 				<view v-if="index == 7 && Data.MCDelay != ''" class="degmdg">
 					{{ Data.MCDelay }}
@@ -38,7 +43,7 @@
 		</view>
 
 		<!-- 当前状态 -->
-		<view class="card" @click="worksfun()">
+		<view class="card" @click="worksfun()" v-if="$store.state.FormalService">
 			<h3>当前状态</h3>
 
 			<p v-if="Data.EnginnerState" :style="{ color: Data.EnginnerState.Detail == 'WaitStatus' ? 'red' : '#5b8eff' }">
@@ -49,7 +54,7 @@
 		</view>
 
 		<!-- 二级图标 -->
-		<view class="content">
+		<view class="content" v-if="$store.state.FormalService">
 			<view android:gravity="center" class="list" v-for="(item, index) in botLidt" :key="index" @tap="BotClick(index)">
 				<view v-if="index == 2 && Data.UrgeWorkOrder != ''" class="degmdg">
 					{{ Data.UrgeWorkOrder }}
@@ -71,7 +76,16 @@
 
 <script>
 import API_POST from '../../utils/API_POST';
+import uniPopup from '@/components/uni-popup/uni-popup.vue';
+import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue';
+import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue';
+
 export default {
+	components: {
+		uniPopup,
+		uniPopupMessage,
+		uniPopupDialog
+	},
 	data: function () {
 		return {
 			show: false,
@@ -170,6 +184,32 @@ export default {
 					AmierIMG: 'icon08'
 				}
 			],
+			icon_apple: [
+				{
+					name: 1,
+					icon: require('../../static/img/icon/1-1.png'),
+					text: '工单任务',
+					AmierIMG: 'icon01'
+				},
+				{
+					name: 2,
+					icon: require('../../static/img/icon/2-1.png'),
+					text: '订单任务',
+					AmierIMG: 'icon02'
+				},
+				{
+					name: 6,
+					icon: require('../../static/img/icon/6.png'),
+					text: '安装任务',
+					AmierIMG: 'icon03'
+				},
+				{
+					name: 3,
+					icon: require('../../static/img/icon/3.png'),
+					text: '保养任务',
+					AmierIMG: 'icon04'
+				},
+			],
 			//点击跳转页面路径
 			path: [
 				'/pages/home/works/work.1',
@@ -203,7 +243,9 @@ export default {
 					pagePath: '/pages/index/index'
 				}
 			],
-			current: 1
+			current: 1,
+			Title: '',
+			Content: ''
 		};
 	},
 	onShow() {
@@ -213,6 +255,22 @@ export default {
 		that.Data.MCDelay = '';
 		that.GetGCSHome();
 		this.GetIndexBanners();
+
+		//  初次会验证版本   如果需要更新则会提示    不需要更新则会进行下一步
+		uni.getStorage({
+			key: 'admin',
+			success: function (res) {
+				if (res.data == 'gcs_ios' || res.data == '') {
+					return false;
+				} else {
+					console.log('获取版本信息！');
+					that.getappversion();
+				}
+			},
+			fail: function () {
+				return false;
+			}
+		});
 	},
 	methods: {
 		BotClick: function (index) {
@@ -242,16 +300,15 @@ export default {
 			}
 		},
 		// 工程师打卡
-		async clock_in_fun () {
-			let me = this
+		async clock_in_fun() {
+			let me = this;
 			// 获取定位
 			let IP = await this.getLocation();
-			console.log(IP)
+			console.log(IP);
 
-			API_POST('system/UploadMapCoordinate',{Longitude: String(IP.longitude),Latitude: String(IP.latitude)})
-			.then((res) => {
-				console.log(res)
-				var text = '经度：' + IP.longitude + ' - '  + '纬度：' + IP.latitude;
+			API_POST('system/UploadMapCoordinate', { Longitude: String(IP.longitude), Latitude: String(IP.latitude) }).then((res) => {
+				console.log(res);
+				var text = '经度：' + IP.longitude + ' - ' + '纬度：' + IP.latitude;
 				// 判断平台
 				switch (uni.getSystemInfoSync().platform) {
 					// 安卓使用 UNI UI
@@ -263,11 +320,11 @@ export default {
 					case 'ios':
 						uni.showModal({
 							title: '打卡成功！',
-							content: text,
+							content: text
 						});
 						break;
 				}
-			})
+			});
 		},
 
 		GetIndexBanners: function () {
@@ -347,6 +404,117 @@ export default {
 		DelVideo: function () {
 			this.Video = '';
 			this.OPVideo = false;
+		},
+
+		// 获取当前版本号
+		getappversion: function () {
+			// #ifdef APP-PLUS
+			const me = this;
+			plus.runtime.getProperty(plus.runtime.appid, function (inf) {
+				me.$store.state.currentVersion = inf.version;
+				me.initUpdata(inf.version);
+			});
+			// #endif
+		},
+		// 分析版本差异
+		initUpdata: function (version) {
+			var obj = {
+				url: this.$store.state.url + 'System/GetSysVersion',
+				data: {
+					mobile: 1,
+					type: 2,
+					clientVersion: version
+				}
+			};
+			this.$httpnone(obj).then((res) => {
+				// this.$store.state.Updata = false;
+				// 判断是否需要更新  Update  True/false
+				if (res.Data.Update) {
+					// PkgUrl 有值为大更新
+					if (res.Data.PkgUrl != null) {
+						this.Title = '更新！';
+						this.Content = res.Data.Description;
+						this.Dupdata = true;
+						this.PkgUrl = res.Data.PkgUrl;
+						this.$refs.popup.open();
+						// WgtUrl 有值为小更新
+					} else {
+						// 小更新
+						plus.nativeUI.toast('下载更新文件...');
+						this.downWgt(res.Data.WgtUrl); //下载wgt文件的方法
+					}
+				}
+				console.log('不需要更新！');
+				this.load = false;
+				this.Msg = '检查完成';
+			});
+		},
+		//下载安装包
+		downWgt(WgtUrl) {
+			const me = this;
+			plus.downloader
+				.createDownload(
+					WgtUrl,
+					{
+						filename: '_doc/update/'
+					},
+					function (d, status) {
+						if (status == 200) {
+							//plus.nativeUI.toast("下载wgt成功："+d.filename);
+							plus.nativeUI.toast('下载更新文件成功，安装中');
+							me.installWgt(d.filename); // 安装wgt包
+						} else {
+							plus.nativeUI.toast('下载更新失败！');
+						}
+						plus.nativeUI.closeWaiting();
+					}
+				)
+				.start();
+		},
+		//更新资源包
+		installWgt(path) {
+			plus.runtime.install(
+				path,
+				{},
+				function () {
+					plus.nativeUI.toast('应用资源更新完成！请重启App！', function () {
+						plus.runtime.restart();
+					});
+					uni.showModal({
+						title: '更新完成！',
+						content: '热更新完成，请重启手机app',
+						success: function (resTwo) {
+							if (resTwo.confirm) {
+								console.log('用户点击确定');
+								plus.runtime.restart();
+							} else if (resTwo.cancel) {
+								console.log('用户点击取消');
+								plus.runtime.restart();
+							}
+						}
+					});
+				},
+				function (e) {
+					plus.nativeUI.toast('安装wgt文件失败[' + e.code + ']：' + e.message);
+				}
+			);
+		},
+		close(done) {
+			// ...				// TODO 做一些其他的事情，before-close 为true的情况下，手动执行 done 才会关闭对话框
+			done();
+		},
+		/**
+		 * 点击确认按钮触发
+		 * @param {Object} done
+		 * @param {Object} value
+		 */
+		confirm(done, value) {
+			// 输入框的值
+			if (this.Dupdata) {
+				plus.runtime.openURL(this.PkgUrl);
+			}
+			// ...// TODO 做一些其他的事情，手动执行 done 才会关闭对话框
+			done();
 		}
 	}
 };

@@ -1,5 +1,8 @@
 <template>
 	<view class="box">
+		
+		<u-empty v-if='data.length == 0' text="附近暂无保养任务" mode="message"></u-empty>
+		
 		<view class="hezi" v-for="(item,index) in data" :key="index">
 			<view class="left">
 				<view class="text1">{{item.CustomerName}}</view>

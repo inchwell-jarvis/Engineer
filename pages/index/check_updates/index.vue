@@ -1,15 +1,13 @@
 <template>
 	<view class="box">
-
 		<u-cell-group>
 			<u-cell-item icon="bookmark-fill" :title="'当前版本 : ' + app_version" :arrow="false">
-				<span slot="right-icon" style="color: #2979ff"  @tap="GetSysVersion()" >
+				<span slot="right-icon" style="color: #2979ff" @tap="GetSysVersion()">
 					<u-loading mode="flower" v-if="loading"></u-loading>
 					检查更新
 				</span>
 			</u-cell-item>
 		</u-cell-group>
-		
 	</view>
 </template>
 
@@ -18,8 +16,17 @@ export default {
 	data() {
 		return {
 			loading: false,
-			app_version: this.$store.state.app_version, // 此版本来自初始页面 App.vue 存储
+			app_version: this.$store.state.app_version // 此版本来自初始页面 App.vue 存储
 		};
+	},
+	created() {
+		// #ifdef APP-PLUS
+		const me = this;
+		plus.runtime.getProperty(plus.runtime.appid, function (inf) {
+			me.app_version = inf.version;
+			me.$store.state.currentVersion = inf.version;
+		});
+		// #endif
 	},
 	methods: {
 		//检查更新

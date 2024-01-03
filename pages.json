@@ -687,6 +687,14 @@
 				}
 			}
 
+		},
+		{
+			"path" : "pages/Logo/register",
+			"style" : 
+			{
+				"navigationBarTitleText" : "注册",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 

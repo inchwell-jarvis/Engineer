@@ -38,7 +38,7 @@
 			</view>
 		</navigator>
 
-		<navigator :url="'./UserManual/UserManual'" style="background-color: rgba(0, 0, 0, 0);">
+		<navigator :url="'./UserManual/UserManual'" style="background-color: rgba(0, 0, 0, 0);" v-if="$store.state.FormalService">
 			<view class="operate">
 				<div class="icon">
 					<u-image width="30px" height="30px" src="/static/MePageIcon/folder.png">></u-image>
@@ -135,6 +135,7 @@
 			signOut: function() {
 				var that = this
 				this.$store.state.token = ''
+				this.$store.state.FormalService = false
 				uni.setStorage({ //清空本地Token
 					key: 'Token',
 					data: '',

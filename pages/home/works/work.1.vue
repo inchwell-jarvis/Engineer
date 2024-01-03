@@ -16,7 +16,7 @@
 				
 			</view>
 		</u-card>
-		<u-empty v-if="!data[0]"  text="暂无工单" mode="message	"></u-empty>
+		<u-empty v-if="!data[0]"  text="附近暂无维修任务" mode="message"></u-empty>
 	</view>
 </template>
 <script>
