@@ -13,6 +13,17 @@
 			</view>
 		</view>
 		
+		<navigator :url="'./Account/index'" style="background-color: rgba(0, 0, 0, 0);">
+			<view class="operate">
+				<div class="icon">
+					<u-image width="30px" height="30px" src="/static/MePageIcon/folder.png"></u-image>
+				</div>
+				<div class="txt">
+					账户管理
+				</div>
+			</view>
+		</navigator>
+		
 		<!-- 
 		 navigator 需要设置背景全透明，不然在点击的时候会显示灰色背景
 		 -->

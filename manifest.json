@@ -3,7 +3,7 @@
     "appid" : "__UNI__FB3B110",
     "description" : "",
     "versionName" : "3.07.03",
-    "versionCode" : 307030,
+    "versionCode" : 307031,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -66,7 +66,8 @@
                 "dSYMs" : false,
                 "privacyDescription" : {
                     "NSCameraUsageDescription" : "获取您的面部数据用于登录",
-                    "NSFaceIDUsageDescription" : "获取您的面部数据用于登录"
+                    "NSFaceIDUsageDescription" : "获取您的面部数据用于登录",
+                    "NSLocationWhenInUseUsageDescription" : "位置授权服务将帮助您精准接收订单、记录行程轨迹，并为您推送周边的服务或信息，让您享受更加便捷的使用体验。"
                 },
                 "idfa" : false
             },

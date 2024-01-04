@@ -162,11 +162,10 @@
 		{
 			"path": "pages/Logo/Logo",
 			"style": {
-				"navigationBarTitleText": "登录",
 				"app-plus": {
 					"titleNView": false,
-					"softinputNavBar": "none",
-					"bounce": "none" // 将回弹属性关掉
+					"popGesture": "none",
+					"softinputNavBar": "none"
 				}
 			}
 		},
@@ -693,6 +692,14 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "注册",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/index/Account/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "账户管理",
 				"enablePullDownRefresh" : false
 			}
 		}
