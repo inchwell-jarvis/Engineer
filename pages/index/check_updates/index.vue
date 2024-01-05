@@ -2,7 +2,7 @@
 	<view class="box">
 		<u-cell-group>
 			<u-cell-item icon="bookmark-fill" :title="'当前版本 : ' + app_version" :arrow="false">
-				<span slot="right-icon" style="color: #2979ff" @tap="GetSysVersion()">
+				<span slot="right-icon" style="color: #2979ff" @tap="ifapple()">
 					<u-loading mode="flower" v-if="loading"></u-loading>
 					检查更新
 				</span>
@@ -29,18 +29,47 @@ export default {
 		// #endif
 	},
 	methods: {
+		// 判断是不是苹果测试员
+		ifapple() {
+			const me = this;
+			uni.getStorage({
+				key: 'admin',
+				success: function (res) {
+					if (res.data == 'gcs_ios' || res.data == '') {
+						uni.showModal({
+							title: '当前为最新版本',
+							success: function (resTwo) {
+								if (resTwo.confirm) {
+									console.log('用户点击确定');
+								} else if (resTwo.cancel) {
+									console.log('用户点击取消');
+								}
+							}
+						});
+					} else {
+						console.log('获取版本信息！');
+						me.GetSysVersion();
+					}
+				},
+				fail: function () {
+					return false;
+				}
+			});
+		},
+
 		//检查更新
 		GetSysVersion: function () {
-			this.loading = true;
+			const me = this;
+			me.loading = true;
 			var obj = {
-				url: this.$store.state.url + 'System/GetSysVersion',
+				url: me.$store.state.url + 'System/GetSysVersion',
 				data: {
 					mobile: 1,
 					type: 2,
-					clientVersion: this.app_version
+					clientVersion: me.app_version
 				}
 			};
-			this.$http(obj).then((res) => {
+			me.$http(obj).then((res) => {
 				console.log(res);
 				// 判断是否需要更新  Update  True/false
 				if (res.Data.Update) {
@@ -77,7 +106,7 @@ export default {
 						}
 					});
 				}
-				this.loading = false;
+				me.loading = false;
 			});
 		},
 		downWgt(WgtUrl) {

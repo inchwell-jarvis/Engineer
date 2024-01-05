@@ -6,13 +6,14 @@
 		<!-- 用户名 -->
 		<view class="inputArea assd">
 			<u-input v-model="account" placeholder="请输入账号" type="text" :border="true" />
-			<br />
-			<u-input v-model="password" placeholder="请输入密码" type="password" :border="true" />
+			<!-- <br /> -->
+			<!-- <u-input v-model="password" placeholder="请输入密码" type="password" :border="true" /> -->
 		</view>
 
 		<!-- 登陆按钮 -->
 		<view class="inputArea">
-			<u-button type="primary" size="medium" @tap="account_fun()" class="logon">登 录</u-button>
+			<!-- <u-button type="primary" size="medium" @tap="account_fun()" class="logon">登 录</u-button> -->
+			<u-button type="primary" size="medium" @tap="inter(2)" class="logon">人脸登录</u-button>
 			<br />
 			<br />
 			<p>
@@ -242,7 +243,6 @@ export default {
 				PPFace.recycler(config, (result) => {
 					_self.msg = new Date().getHours() + ':' + new Date().getMinutes() + '  ' + JSON.stringify(result) + '<br/>' + _self.msg;
 					if (result.FaceStatusEnum == '"OK"') {
-						console.log('正在上传脸部数据！');
 						_self.saveImgs(result.base64ImageMap);
 					}
 				});

@@ -12,6 +12,21 @@ export default {
 			}
 		});
 	},
+	onShow() {
+		var _self = this;
+		uni.getStorage({
+			key: 'admin',
+			success: function (res) {
+				console.log('获取登录名称:' + res.data)
+				if (res.data == 'gcs_ios' || res.data == '') {
+					_self.$store.state.FormalService = false
+				} else {
+					console.log('获取版本信息！');
+					_self.$store.state.FormalService = true
+				}
+			}
+		});
+	},
 	methods: {
 		
 	}
