@@ -196,6 +196,24 @@ export default {
 		},
 
 		inter(inx) {
+			
+			
+			// 判断是否想要进入测试环境
+			if (this.account == 'gototest' || this.account == 'goto test' || this.account == 'Goto test' || this.account == 'Gototest') {
+				this.mode = true;
+				this.$store.state.url = 'http://39.100.116.85:6001/api/'; //  ·············接口头部
+				this.$store.state.httpurl = 'http://39.100.116.85:6001'; //  ··············外部路径
+				this.$store.state.httpimgs = 'http://39.100.116.85:6001'; // ··············零配件  九图  链接头部
+				uni.showToast({
+					title: '进入测试环境',
+					icon: 'none'
+				});
+				this.TestPort = true;
+				return false;
+			}
+			
+			
+			
 			// 正常登陆
 			const _self = this;
 			if (_self.account == '') {

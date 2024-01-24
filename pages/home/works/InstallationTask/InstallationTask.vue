@@ -423,6 +423,7 @@
 						type: '1'
 					}
 				}
+				console.log(obj)
 				this.$http(obj).then((res) => {
 					console.log(res.Data)
 					this.gcss = res.Data
