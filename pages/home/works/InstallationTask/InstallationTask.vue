@@ -174,16 +174,34 @@
 		</view>
 
 		<!-- 操作 -->
-		<button class="lickgcs" v-if=" Data.Dto && Data.Dto.State == 2 && DataType == 1 " @click="GO()"
-			type="primary">指派</button>
-		<button class="lickgcss" v-if=" Data.Dto && Data.Dto.State == 3 && DataType == 2" @click="GOgcs(4)"
-			type="primary">接受</button>
-		<button class="lickgcs" v-if=" Data.Dto && Data.Dto.State == 3 && DataType == 2" @click="GOgcs(5)"
-			type="primary">拒绝</button>
-		<button class="lickgcs" v-if=" Data.Dto && Data.Dto.State == 4 && DataType == 2" @click="GOgcs(6)"
-			type="primary">出发</button>
-		<button class="lickgcs" v-if=" Data.Dto && Data.Dto.State == 6 && DataType == 2" @click="GOgcs(7)"
-			type="primary">到达</button>
+		<button class="lickgcs" v-if=" Data.Dto && Data.Dto.State == 2 && DataType == 1 " @click="GO()"	type="primary">指派</button>
+		<button class="lickgcss" v-if=" Data.Dto && Data.Dto.State == 3 && DataType == 2" @click="GOgcs(4)"	type="primary">接受</button>
+		<button class="lickgcs" v-if=" Data.Dto && Data.Dto.State == 3 && DataType == 2" @click="GOgcs(5)"	type="primary">拒绝</button>
+		
+		<view class="buts"  v-if=" Data.Dto && Data.Dto.State == 4 && DataType == 2" >
+			<button type="success" size="mini" @tap="(popup_task = true), (task_textarea = '')">远程解决任务</button>
+			<button type="primary" size="mini" @tap="GOgcs(6)">出发</button>
+		</view>
+		
+		<view class="buts" v-if=" Data.Dto && Data.Dto.State == 6 && DataType == 2" @click="GOgcs(7)">
+			<button type="success" size="mini" @tap="(popup_task = true), (task_textarea = '')">远程解决任务</button>
+			<button type="primary" size="mini" @tap="GOgcs(7)">到达</button>
+		</view>
+		
+		<u-popup v-model="popup_task" mode="bottom" :closeable="false">
+			<view class="popup_task">
+				<div class="popup_task_header">
+					<u-button type="success" size="medium" style="float: right" @click="RemoteProcessingTask()">远程解决</u-button>
+				</div>
+				<div class="popup_task_content">
+					<u-input v-model="task_textarea" type="textarea" :border="true" style="height: 100%" :auto-height="false" placeholder="请填已远程解决任务的内容" />
+				</div>
+			</view>
+		</u-popup>
+		
+		
+		
+			
 		<button class="lickgcs" v-if=" Data.Dto && Data.Dto.State == 7 && DataType == 2 && Data.Dto.Recovery"
 			@click="ClickOldPieces()" type="default" style="margin-bottom: 10px;">旧件寄回</button>
 		<button class="lickgcs" v-if=" Data.Dto && Data.Dto.State == 7 && DataType == 2" @click="Upimg()"
@@ -251,6 +269,9 @@
 				url: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-dc-site/9a952c80-6080-11eb-a16f-5b3e54966275.png',
 				sourceType: ['camera', 'album'],
 				img: [],
+				
+				popup_task: false,
+				task_textarea: ''
 			};
 		},
 		components: {
@@ -261,6 +282,29 @@
 			this.httpgcs()
 		},
 		methods: {
+			
+			// 远程完成出发和到达
+			RemoteProcessingTask() {
+				console.log(this.task_textarea);
+				if (this.task_textarea.trim() == '') {
+					uni.showToast({
+						title: '请填已远程解决任务的内容',
+						icon: 'none'
+					});
+					return false;
+				}
+				let data = {
+					Id: this.Data.Dto.ID,
+					Str: this.task_textarea
+				};
+				//
+				this.API_POST('WO/RemoteCompanyEquInstallOrder', data).then((rv) => {
+					uni.navigateTo({
+						url: '../work.1'
+					});
+				});
+			},
+			
 			ReturnBase64: function(value) {
 				var Base = value.Data[0]
 				var that = this
@@ -1038,4 +1082,32 @@
 		box-sizing: border-box;
 		font-size: 15px;
 	}
+	
+	.buts {
+		width: 100%;
+		margin-top: 50px;
+		display: flex;
+		justify-content: center;
+	
+		button {
+			height: none;
+		}
+	}
+	//
+	.popup_task {
+		width: 100%;
+		height: 300px;
+		.popup_task_header {
+			width: 100%;
+			height: 50px;
+			line-height: 50px;
+			padding: 5px;
+			box-sizing: border-box;
+		}
+		.popup_task_content {
+			width: 100%;
+			height: calc(100% - 50px);
+		}
+	}
+	
 </style>
