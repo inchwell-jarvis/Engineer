@@ -300,7 +300,7 @@
 				//
 				this.API_POST('WO/RemoteCompanyEquInstallOrder', data).then((rv) => {
 					uni.navigateTo({
-						url: '../work.1'
+						url: "../work.6",
 					});
 				});
 			},
