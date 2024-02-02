@@ -178,12 +178,12 @@
 		<button class="lickgcss" v-if=" Data.Dto && Data.Dto.State == 3 && DataType == 2" @click="GOgcs(4)"	type="primary">接受</button>
 		<button class="lickgcs" v-if=" Data.Dto && Data.Dto.State == 3 && DataType == 2" @click="GOgcs(5)"	type="primary">拒绝</button>
 		
-		<view class="buts"  v-if=" Data.Dto && Data.Dto.State == 4 && DataType == 2" >
+		<view class="buts"  v-if=" Data.Dto && Data.Dto.State == 4 && DataType == 2">
 			<button type="success" size="mini" @tap="(popup_task = true), (task_textarea = '')">远程解决任务</button>
 			<button type="primary" size="mini" @tap="GOgcs(6)">出发</button>
 		</view>
 		
-		<view class="buts" v-if=" Data.Dto && Data.Dto.State == 6 && DataType == 2" @click="GOgcs(7)">
+		<view class="buts" v-if=" Data.Dto && Data.Dto.State == 6 && DataType == 2">
 			<button type="success" size="mini" @tap="(popup_task = true), (task_textarea = '')">远程解决任务</button>
 			<button type="primary" size="mini" @tap="GOgcs(7)">到达</button>
 		</view>
