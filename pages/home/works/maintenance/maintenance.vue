@@ -61,9 +61,20 @@
 
 
 		<!-- 选择工程师 -->
-		<view class="cu-form-group gcd" v-if="this.state == 1 ||this.state == 8 || this.state == 9">
+		<!-- <view class="cu-form-group gcd" v-if="this.state == 1 ||this.state == 8 || this.state == 9">
 			<view class="title">选择工程师</view>
 			<input type="text" :value="gcsName" @tap="onKeyInputs" disabled="true" />
+		</view> -->
+		
+		<!-- 选择工程师 -->
+		<view class="cu-form-group gcd" v-if="this.state == 1 ||this.state == 8 || this.state == 9">
+			<scroll-view scroll-y="true" class="ListView">
+				<u-cell-group>
+					<u-cell-item :arrow="false" icon="man-add-fill" v-for="(item, index) in gcss" :key="index" :title="item.Name">
+						<switch :value="item.switch" :checked="item.switch" @tap="switchs(index)" style="transform: scale(0.6)" />
+					</u-cell-item>
+				</u-cell-group>
+			</scroll-view>
 		</view>
 
 
@@ -155,7 +166,7 @@
 
 
 		<!-- 工程师选择 -->
-		<u-popup v-model="show" mode="bottom" length="60%" :closeable='true' close-icon-pos='top-left'
+	<!-- 	<u-popup v-model="show" mode="bottom" length="60%" :closeable='true' close-icon-pos='top-left'
 			border-radius='10'>
 			<view class="content">
 				<u-button type="primary" size="medium" @click="close()">确定</u-button>
@@ -169,7 +180,7 @@
 					</u-cell-group>
 				</scroll-view>
 			</view>
-		</u-popup>
+		</u-popup> -->
 
 		<u-toast ref="uToast" />
 	</view>
@@ -457,24 +468,25 @@
 			},
 			//指派gcs
 			zhi: function() {
-				if (this.gcs.length == 0) {
-					uni.showToast({
-						title: "请选择工程师",
-						icon: "none"
-					})
-					return false
-				}
+				
+				// 收集已选择的数据
+				let engineerAssembly = (this.gcss || []).filter((item) => item.switch).map((item) => item.EmployeeId);
+				
+				// 检查是否未选择
+				if (engineerAssembly.length == 0) return uni.showToast({ title: '请选择工程师', icon: 'none' });
+				
 				if (this.GOstatuss == 1) {
 					return false
 				}
 				this.GOstatuss = 1
+				
 				var obj = {
 					url: this.$store.state.url + 'Maintain/AssignTaskForM',
 					method: 'POST',
 					header: this.$store.state.token,
 					data: {
 						Id: this.$store.state.MaintenancestatusID,
-						EIds: this.gcs,
+						EIds: engineerAssembly,
 						BeginTime: this.Time
 					}
 				}
@@ -484,30 +496,7 @@
 					});
 				})
 			},
-			//点击工程师选择
-			onKeyInputs: function(event) {
-				// this.$refs.popup.open()
-				this.show = true
-			},
-			//确认gcs
-			close: function() {
-				this.gcs = []
-				this.gcsName = ''
-				this.Gcsscz = false
-				for (var i = 0; i < this.gcss.length; i++) {
-					if (this.gcss[i].switch) {
-						this.gcs.push(this.gcss[i].EmployeeId)
-						this.gcsName += "/" + this.gcss[i].Name
-					}
-				}
-				for (var i = 0; i < this.gcss.length; i++) {
-					this.gcss[i].switch = false
-				}
-				console.log(this.gcs)
-				this.show = false
-				this.zhi()
-			},
-			DataChange: function(e) {},
+			
 			switchs: function(i) {
 				this.$set(this.gcss[i], 'switch', !this.gcss[i].switch)
 			},

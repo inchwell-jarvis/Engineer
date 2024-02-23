@@ -108,21 +108,6 @@
 			</view>
 		</view>
 
-		<!-- 
-		<view class="Customer" v-if="this.codeurlids == 1 ">
-			<view class="Customer_Top">
-				指派工程师
-			</view>
-			<view class="Mini_list">
-				<view class="Mini_list_left" @tap='showTrue()'>
-					选择工程师
-				</view>
-				<view class="Mini_list_right">
-				</view>
-			</view>
-		</view>
- -->
-
 		<text v-if="this.RepairFaultImages.length != 0">故障图片</text>
 		<view class="thisphotos" v-if="this.RepairFaultImages.length != 0">
 			<image v-if="item.Type == 'picture'" v-for="(item, index) in this.RepairFaultImages" :key="index" :src="item.Path" mode="" @tap="yulan(index)"></image>
@@ -131,23 +116,42 @@
 		</view>
 
 		<u-select v-model="shows" mode="single-column" :list="selector" @confirm="GcsHD"></u-select>
-		<u-select v-model="showss" mode="single-column" :list="itemList" @confirm="GcsLX"></u-select>
 
 		<text v-if="this.codeurlids == 1">指派工程师</text>
 		<view v-if="this.codeurlids == 1" class="view">
 			<view class="tie">
-				<text>选择工程师</text>
-				<text @tap="showTrue()">{{ Dat.name }}</text>
+				<view class="text">选择工程师</view>
+				<div class="right">
+					<u-radio-group v-model="Dat.name" :wrap="true">
+						<u-radio v-for="(item, index) in selector" :key="index" :name="item.name" :disabled="item.disabled">
+							<p>{{ item.name }}</p>
+						</u-radio>
+					</u-radio-group>
+					<view style="height: 30px"></view>
+				</div>
 			</view>
+			<!--  -->
 			<view class="tie">
-				<text>类型</text>
-				<text @tap="showTrues()">{{ Dat.lei }}</text>
+				<view class="text">类型</view>
+				<div class="right">
+					<u-radio-group v-model="Dat.ServiceType" :wrap="true">
+						<u-radio v-for="(item, index) in ServiceTypeList" :key="index" :name="item.name" :disabled="item.disabled">
+							{{ item.name }}
+						</u-radio>
+					</u-radio-group>
+					<view style="height: 30px"></view>
+				</div>
 			</view>
+			<!--  -->
 			<view class="tie">
-				<text>工时</text>
-				<u-input v-model="Dat.time" type="number" />
+				<view class="text">工时</view>
+				<div class="right">
+					<u-input v-model="Dat.time" type="number" />
+					<view style="height: 30px"></view>
+				</div>
 			</view>
 			<button type="primary" class="buttons" @tap="but" size="mini">指派</button>
+			<view style="width: 100%; height: 50px; float: right"></view>
 		</view>
 
 		<view class="buts" v-if="this.codeurlids == 2">
@@ -192,25 +196,27 @@ export default {
 		return {
 			data: {},
 			Dat: {
-				name: '点击选择工程师',
+				name: '',
 				id: '',
-				lei: '点击选择类型',
+				ServiceType: '',
 				time: ''
 			},
-			itemList: [
+
+			ServiceTypeList: [
 				{
-					label: '维修',
-					value: '维修'
+					name: '维修',
+					disabled: false
 				},
 				{
-					label: '安装',
-					value: '安装'
+					name: '安装',
+					disabled: false
 				},
 				{
-					label: '保养',
-					value: '保养'
+					name: '保养',
+					disabled: false
 				}
 			],
+
 			codeurlids: '', //判断进来的状态
 			textareaAValue: '', //处理任务备注
 			CustomerId: '', //跳转并创建订单携带
@@ -221,7 +227,6 @@ export default {
 
 			selector: [],
 			shows: false,
-			showss: false,
 			popup_task: false,
 			task_textarea: ''
 		};
@@ -229,7 +234,7 @@ export default {
 	mounted() {
 		console.log(this.$store.state.codeurlid);
 
-		this.initgcs();
+		this.GetEmployeeMini();
 
 		this.codeurlids = this.$store.state.codeurlids;
 
@@ -294,41 +299,32 @@ export default {
 		showTrue: function () {
 			this.shows = true;
 		},
-		// showTrues
-		showTrues: function () {
-			this.showss = true;
-		},
+
 		// 选择工程师回调
 		GcsHD: function (ar) {
 			console.log(ar);
 			this.Dat.name = ar[0].label;
 			this.Dat.id = ar[0].value;
 		},
-		// 选择工程师回调
-		GcsLX: function (ar) {
-			console.log(ar);
-			this.Dat.lei = ar[0].label;
-		},
+
 		// 获取工程师
-		initgcs: function () {
+		GetEmployeeMini: function () {
 			var obj = {
 				url: this.$store.state.url + 'System/GetEmployeeMini',
 				method: 'GET',
-
 				data: {
 					type: '1'
 				}
 			};
 			this.$http(obj).then((res) => {
 				this.selector = [];
-				console.log(res);
 				for (var i = 0; i < res.Data.length; i++) {
 					this.selector.push({
-						value: res.Data[i].EmployeeId,
-						label: res.Data[i].Name
+						name: res.Data[i].Name,
+						disabled: false,
+						EmployeeId: res.Data[i].EmployeeId
 					});
 				}
-				console.log(this.selector);
 			});
 		},
 		good: function (res) {
@@ -412,18 +408,18 @@ export default {
 				title: '选择类型',
 				itemList: ['维修', '安装', '保养'],
 				success: (e) => {
-					this.Dat.lei = this.itemList[e.tapIndex];
+					this.Dat.ServiceType = this.itemList[e.tapIndex];
 				}
 			});
 		},
 		//提交按钮
 		but: function () {
-			if (this.Dat.id == '') {
+			if (this.Dat.name == '') {
 				uni.showToast({
 					title: '请选择工程师',
 					icon: 'none'
 				});
-			} else if (this.Dat.lei == '') {
+			} else if (this.Dat.ServiceType == '') {
 				uni.showToast({
 					title: '请选择类型',
 					icon: 'none'
@@ -434,13 +430,20 @@ export default {
 					icon: 'none'
 				});
 			} else {
+				console.log(this.selector);
+				this.Dat.id = this.selector.filter((rv) => {
+					return rv.name == this.Dat.name;
+				})[0].EmployeeId;
+				console.log(this.Dat.id);
+				console.log('---------------------------------------------------');
+
 				var obj = {
 					url: this.$store.state.url + 'WO/AssignTask',
 					method: 'POST',
 
 					data: {
 						EngineerId: this.Dat.id,
-						RepairType: this.Dat.lei,
+						RepairType: this.Dat.ServiceType,
 						RepairTime: this.Dat.time,
 						WoId: this.$store.state.codeurlid.WorkOrderId
 					}
@@ -683,42 +686,38 @@ export default {
 
 	.view {
 		width: 100%;
-		height: 200px;
-
-		.zhipai {
-			width: 100%;
-
-			text {
-				display: block;
-				float: left;
-			}
-		}
+		min-height: 100px;
 	}
 
 	.tie {
 		width: 100%;
-		height: 50px;
+		min-height: 50px;
 		line-height: 30px;
 		padding-left: 30px;
+		font-size: 12px;
 		box-sizing: border-box;
-		font-size: 13px;
 
-		text {
+		.text {
 			width: 120px;
+			min-height: 100%;
 			display: block;
 			float: left;
 			font-weight: none;
 			border: none;
 		}
-
-		input {
-			width: 200px;
+		.right {
+			width: calc(100% - 130px);
+			min-height: 100%;
 			float: left;
-			display: block;
-			margin-top: 7px;
-			border: 1px solid #808080;
-			border-radius: 5px;
-			font-size: 15px;
+			input {
+				width: 100%;
+				float: left;
+				display: block;
+				margin-top: 7px;
+				border: 1px solid #808080;
+				border-radius: 5px;
+				font-size: 15px;
+			}
 		}
 	}
 
