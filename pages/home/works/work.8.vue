@@ -83,6 +83,10 @@
 							icon: "/static/img/icon/6.png",
 							text: "工作日报",
 							url: '/pages/home/works/work.4'
+						}, {
+							icon: "/static/img/icon/JJ.png",
+							text: "奖金明细",
+							url: '/pages/home/works/bonus/bonus'
 						}]
 					},
 					{

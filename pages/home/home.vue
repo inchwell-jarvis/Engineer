@@ -56,8 +56,12 @@
 		<!-- 二级图标 -->
 		<view class="content" v-if="$store.state.FormalService">
 			<view android:gravity="center" class="list" v-for="(item, index) in botLidt" :key="index" @tap="BotClick(index)">
+				<!-- Data.UrgeWorkOrder 是指工单催促的任务数量 -->
 				<view v-if="index == 2 && Data.UrgeWorkOrder != ''" class="degmdg">
 					{{ Data.UrgeWorkOrder }}
+				</view>
+				<view v-if="index == 3 && Data.WA != ''" class="degmdg">
+					{{ Data.WA }}
 				</view>
 				<image mode="" :class="item.AmierIMG"></image>
 				<text>{{ item.text }}</text>
@@ -128,8 +132,8 @@ export default {
 				},
 				{
 					name: 1,
-					icon: require('../../static/img/icon/JJ.png'),
-					text: '奖金明细',
+					icon: require('../../static/img/icon/acc.png'),
+					text: '配件审核',
 					AmierIMG: 'icon0JJ'
 				}
 			],
@@ -208,7 +212,7 @@ export default {
 					icon: require('../../static/img/icon/3.png'),
 					text: '保养任务',
 					AmierIMG: 'icon04'
-				},
+				}
 			],
 			//点击跳转页面路径
 			path: [
@@ -254,6 +258,7 @@ export default {
 		that.Data.ReturnVisit = '';
 		that.Data.MCDelay = '';
 		that.GetGCSHome();
+		// 获取首页轮播图链接
 		this.GetIndexBanners();
 
 		//  初次会验证版本   如果需要更新则会提示    不需要更新则会进行下一步
@@ -292,10 +297,10 @@ export default {
 				});
 			}
 
-			// 4 是奖金明细
+			// 4 配件审核
 			if (row == 4) {
 				uni.navigateTo({
-					url: '/pages/home/works/bonus/bonus'
+					url: '/pages/home/works/acc-review/acc-review'
 				});
 			}
 		},
@@ -345,20 +350,22 @@ export default {
 			this.Video = '';
 			this.OPVideo = false;
 		},
+		// 
 		GetGCSHome: function () {
 			var obj = {
 				url: this.$store.state.url + 'System/GetGCSHome',
 				method: 'GET'
 			};
 			this.$httpnone(obj).then((res) => {
-				console.log(res.Data);
-				(this.Data = res.Data), console.log(res.Data);
+				this.Data = res.Data;
+				// 记录工程师的区域
+				this.$store.state.EnginnerStateArea = this.Data.EnginnerState.Area
+				console.log(this.Data);
 				// 判断是否有未读消息
-				var NoMasgindex = res.Data.NoReadJournalism;
-				if (NoMasgindex != 0) {
+				if (res.Data.NoReadJournalism != 0) {
 					uni.setTabBarBadge({
 						index: 1,
-						text: String(NoMasgindex)
+						text: String(res.Data.NoReadJournalism)
 					});
 				}
 				// 当状态为空闲时  判断是否存在其他任务
@@ -702,7 +709,7 @@ export default {
 			}
 			// 8
 			.icon0JJ {
-				background-image: url(../../static/img/icon/JJ.png);
+				background-image: url(../../static/img/icon/acc.png);
 				background-size: 100% 100%;
 			}
 

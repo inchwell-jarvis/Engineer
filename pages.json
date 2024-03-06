@@ -702,6 +702,22 @@
 				"navigationBarTitleText" : "账户管理",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/home/works/acc-review/acc-review",
+			"style" : 
+			{
+				"navigationBarTitleText" : "配件审核",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/home/works/acc-review/acc-review-edit",
+			"style" : 
+			{
+				"navigationBarTitleText" : "审批",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 
