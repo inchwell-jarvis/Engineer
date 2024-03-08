@@ -66,37 +66,24 @@
 			<div class="title">设备信息</div>
 			<div class="content">
 				<div class="quipment" v-for="(item,index) in data.SOEquipmentList" :key='index'>
-					<div class="li">
-						<span>产品编号</span>
+					<div class="li li2">
+						<span>产品编码</span>
 						<span>{{ item.ProcodeCode }}</span>
 					</div>
-					<div class="li">
-						<span>品牌</span>
-						<span>{{ item.Brand }}</span>
-					</div>
-					<div class="li">
+			
+					<div class="li li2">
 						<span>数量</span>
 						<span>{{ item.Number }}</span>
 					</div>
-					<div class="li">
-						<span>库存</span>
-						<span>{{ item.NetInventory }}</span>
-					</div>
-					<div class="li">
-						<span>采购单价</span>
-						<span>{{ item.PurchaseUnitPrice }}</span>
-					</div>
-					<div class="li">
-						<span>销售单价</span>
-						<span>{{ item.UnitPrice }}</span>
-					</div>
-					<div class="li">
-						<span>安装费单价</span>
-						<span>{{ item.AssemblyPeice }}</span>
-					</div>
-					<div class="li">
+			
+					<div class="li li2">
 						<span>甲方安装</span>
 						<span>{{ item.IsAssembly ? '是' : '否' }}</span>
+					</div>
+				
+					<div class="li li2">
+						<span>描述</span>
+						<span>{{ item.Desc }}</span>
 					</div>
 				</div>
 			</div>
@@ -190,6 +177,14 @@ export default {
 					color: #606266;
 					word-wrap: break-word;
 					word-break: break-all;
+				}
+			}
+			.li2{
+				span:nth-child(1) {
+					width: 100px;
+				}
+				span:nth-child(2) {
+					width: calc(100% - 100px);
 				}
 			}
 		}
