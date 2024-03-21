@@ -65,25 +65,42 @@
 		<div class="task">
 			<div class="title">设备信息</div>
 			<div class="content">
-				<div class="quipment" v-for="(item,index) in data.SOEquipmentList" :key='index'>
+				<div class="quipment" v-for="(item, index) in data.SOEquipmentList" :key="index">
 					<div class="li li2">
 						<span>产品编码</span>
 						<span>{{ item.ProcodeCode }}</span>
 					</div>
-			
+
 					<div class="li li2">
 						<span>数量</span>
 						<span>{{ item.Number }}</span>
 					</div>
-			
+
 					<div class="li li2">
 						<span>甲方安装</span>
 						<span>{{ item.IsAssembly ? '是' : '否' }}</span>
 					</div>
-				
+
 					<div class="li li2">
 						<span>描述</span>
 						<span>{{ item.Desc }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="task">
+			<div class="title">设备清单中是否有需要安装的配件</div>
+			<div class="content">
+				<div class="quipment">
+					<div class="li li2">
+						<span>是否安装</span>
+						<span>
+							<u-radio-group v-model="type">
+								<u-radio name="1">是</u-radio>
+								<u-radio name="0">否</u-radio>
+							</u-radio-group>
+						</span>
 					</div>
 				</div>
 			</div>
@@ -101,7 +118,8 @@ export default {
 	data() {
 		return {
 			soid: '',
-			data: {}
+			data: {},
+			type: ''
 		};
 	},
 	onLoad(options) {
@@ -116,7 +134,16 @@ export default {
 			});
 		},
 		AMApprovalEqus(num) {
-			this.API_POST('SO/AMApprovalEqus', { Id: this.soid, str: num }, true).then((rv) => {
+			// 判断是不是批准，如果是批准的话，要求选择设备清单中是否有需要安装的配件？
+			if (num == 1 && !this.type) {
+				uni.showToast({
+					title: '请选择是否需要安装！',
+					icon: 'none'
+				});
+				return false;
+			}
+			//
+			this.API_POST('SO/AMApprovalEqus', { Id: this.soid, str: num, type: this.type }, true).then((rv) => {
 				console.log(rv);
 				uni.navigateTo({
 					url: './acc-review'
@@ -179,7 +206,7 @@ export default {
 					word-break: break-all;
 				}
 			}
-			.li2{
+			.li2 {
 				span:nth-child(1) {
 					width: 100px;
 				}
