@@ -87,6 +87,10 @@
 							icon: "/static/img/icon/JJ.png",
 							text: "奖金明细",
 							url: '/pages/home/works/bonus/bonus'
+						}, {
+							icon: "/static/img/icon/meeting.png",
+							text: "员工见面会",
+							url: '/pages/home/works/meeting/index'
 						}]
 					},
 					{

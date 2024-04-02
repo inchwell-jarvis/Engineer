@@ -170,6 +170,8 @@ export default {
 				}
 			};
 			that.$http(obj).then((res) => {
+				console.log('登录成功返回值——text：')
+				console.log(res)
 				that.$store.state.username = that.account;
 				that.$store.state.token = res.Data; //数据中心在线存储
 				that.$store.state.FormalService = true
@@ -286,7 +288,8 @@ export default {
 			_self
 				.$uniweb(obj)
 				.then((res) => {
-					console.log('返回值');
+					console.log('登录成功信息：');
+					console.log(res);
 					_self.$store.state.username = _self.account;
 					_self.$store.state.token = res.Data; //数据中心在线存储
 					_self.$store.state.FormalService = true

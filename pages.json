@@ -688,34 +688,67 @@
 
 		},
 		{
-			"path" : "pages/Logo/register",
-			"style" : 
-			{
-				"navigationBarTitleText" : "注册",
-				"enablePullDownRefresh" : false
+			"path": "pages/Logo/register",
+			"style": {
+				"navigationBarTitleText": "注册",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/index/Account/index",
-			"style" : 
-			{
-				"navigationBarTitleText" : "账户管理",
-				"enablePullDownRefresh" : false
+			"path": "pages/index/Account/index",
+			"style": {
+				"navigationBarTitleText": "账户管理",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/home/works/acc-review/acc-review",
-			"style" : 
-			{
-				"navigationBarTitleText" : "配件审核",
-				"enablePullDownRefresh" : false
+			"path": "pages/home/works/acc-review/acc-review",
+			"style": {
+				"navigationBarTitleText": "配件审核",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/home/works/acc-review/acc-review-edit",
+			"path": "pages/home/works/acc-review/acc-review-edit",
+			"style": {
+				"navigationBarTitleText": "审批",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/home/works/meeting/index",
+			"style": {
+				"navigationBarTitleText": "员工见面会",
+				"onReachBottomDistance": 100,
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							// {
+							// 	"text": "提交",
+							// 	"type": "none",
+							// 	"color": "#007AFF",
+							// 	"background": "#000000",
+							// 	"fontSize": "16px",
+							// 	"float": "left"
+							// },
+							{
+								"text": "创建",
+								"type": "none",
+								"color": "#19be6b",
+								"background": "#000000",
+								"fontSize": "16px",
+								"float": "right"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path" : "pages/home/works/meeting/edit",
 			"style" : 
 			{
-				"navigationBarTitleText" : "审批",
+				"navigationBarTitleText" : "会议详情",
 				"enablePullDownRefresh" : false
 			}
 		}
