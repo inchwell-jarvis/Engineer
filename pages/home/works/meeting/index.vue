@@ -40,7 +40,7 @@ export default {
 			data: [],
 			show: false,
 			content: '',
-			retrieval:{
+			retrieval: {
 				Id: '',
 				joiner: '', // 与会人
 				creater: '', // 创建人
@@ -51,7 +51,8 @@ export default {
 				begin: '',
 				end: '',
 				from: 1
-			}
+			},
+			FirsEntry: false
 		};
 	},
 	onBackPress() {
@@ -61,6 +62,8 @@ export default {
 		return true;
 	},
 	onShow() {
+		this.FirsEntry = true;
+		this.retrieval.pageNum = 1
 		this.start();
 	},
 	onNavigationBarButtonTap: function (e) {
@@ -69,27 +72,34 @@ export default {
 			this.show = true;
 		}
 	},
-	onReachBottom: function(e) {
-		this.retrieval.pageNum += 1
-		this.start()
+	onReachBottom: function (e) {
+		this.retrieval.pageNum += 1;
+		this.start();
 	},
 	methods: {
 		// 获取列表
 		start: function () {
 			this.API_GET('PCenter/GetEmployeeMeetings', this.retrieval).then((rv) => {
-				this.data[0] ? this.data = this.data.concat(rv.Data.Dtos) : this.data = rv.Data.Dtos
+				if (this.FirsEntry) {
+					this.data = rv.Data.Dtos;
+					this.FirsEntry = false;
+				} else {
+					this.data[0] ? (this.data = this.data.concat(rv.Data.Dtos)) : (this.data = rv.Data.Dtos);
+				}
 			});
 		},
 		// 创建会议
 		async create_meeting() {
-			let IP = await this.getLocation();
+			let that = this;
+			let IP = await that.getLocation();
 			console.log(IP);
-			this.API_POST('PCenter/AddEmployeeMeeting', { Coordinate: IP.longitude + ',' + IP.latitude }).then((rv) => {
-				this.$refs.uToast.show({
+			that.API_POST('PCenter/AddEmployeeMeeting', { Coordinate: IP.longitude + ',' + IP.latitude }).then((rv) => {
+				that.$refs.uToast.show({
 					title: '创建成功！',
 					type: 'success'
 				});
-				this.start();
+				this.data = [];
+				that.start();
 			});
 		},
 		// 点击见面会

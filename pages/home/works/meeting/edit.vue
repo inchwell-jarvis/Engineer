@@ -195,7 +195,10 @@ export default {
 				pageNum: 1,
 				numPerPage: 999,
 				orderField: '',
-				orderDirection: ''
+				orderDirection: '',
+				begin: '',
+				end: '',
+				from: 1
 			};
 			this.API_GET('PCenter/GetEmployeeMeetings', data).then((rv) => {
 				this.data = rv.Data.Dtos[0];

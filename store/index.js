@@ -5,7 +5,6 @@ const store = new Vuex.Store({
 	state: {
 		FormalService:false,// 是否是正式服
 		
-		
 		AppID: 'com.gcs.yzj',
 		token: '', //············································					身份信息
 		username: "", //·········································					用户姓名
