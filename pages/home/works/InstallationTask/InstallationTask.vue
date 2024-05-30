@@ -56,6 +56,10 @@
 				<view class="span">完成时间：</view>
 				{{ Data.Dto.CompleteDate }}
 			</view>
+			<view class="textx">
+				<view class="span">备注：</view>
+				{{ Data.Dto.Origin || ' ' }}
+			</view>
 		</view>
 
 		<view class="titles" v-if="Data.EnginnerDtos != undefined && Data.EnginnerDtos.length != 0">工程师</view>
@@ -128,7 +132,6 @@
 				</u-cell-group>
 			</scroll-view>
 		</view>
-		
 
 		<!--  -->
 
@@ -434,13 +437,12 @@ export default {
 
 		// 点击指派事件
 		assign: function () {
-			
 			// 收集已选择的数据
 			let engineerAssembly = (this.gcss || []).filter((item) => item.switch).map((item) => item.EmployeeId);
-			
+
 			// 检查是否未选择
 			if (engineerAssembly.length == 0) return uni.showToast({ title: '请选择工程师', icon: 'none' });
-			
+
 			// 开启接口
 			let data = {
 				Id: this.Data.Dto.ID,
@@ -830,6 +832,21 @@ export default {
 	.text {
 		width: 95%;
 		height: 30px;
+		display: block;
+		margin: auto;
+		line-height: 30px;
+
+		.span {
+			width: 100px;
+			display: block;
+			height: 100%;
+			float: left;
+		}
+	}
+
+	.text2 {
+		width: 95%;
+		min-height: 30px;
 		display: block;
 		margin: auto;
 		line-height: 30px;
