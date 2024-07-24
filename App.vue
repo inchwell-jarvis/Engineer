@@ -17,19 +17,17 @@ export default {
 		uni.getStorage({
 			key: 'admin',
 			success: function (res) {
-				console.log('获取登录名称:' + res.data)
+				console.log('获取登录名称:' + res.data);
 				if (res.data == 'gcs_ios' || res.data == '') {
-					_self.$store.state.FormalService = false
+					_self.$store.state.FormalService = false;
 				} else {
 					console.log('获取版本信息！');
-					_self.$store.state.FormalService = true
+					_self.$store.state.FormalService = true;
 				}
 			}
 		});
 	},
-	methods: {
-		
-	}
+	methods: {}
 };
 </script>
 <style lang="scss">
@@ -43,7 +41,7 @@ uni-page-body,
 uni-page-refresh {
 	width: 100%;
 	height: 100%;
-	background: #f7f6f6;
+	background: #f5f6fa;
 	font-size: 14px;
 	font-family: PingFang SC, HarmonyOS_Regular, Helvetica Neue, Microsoft YaHei, sans-serif !important;
 }

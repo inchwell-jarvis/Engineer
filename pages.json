@@ -745,11 +745,20 @@
 			}
 		},
 		{
-			"path" : "pages/home/works/meeting/edit",
-			"style" : 
-			{
-				"navigationBarTitleText" : "会议详情",
-				"enablePullDownRefresh" : false
+			"path": "pages/home/works/meeting/edit",
+			"style": {
+				"navigationBarTitleText": "会议详情",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/car_rental/index",
+			"style": {
+				"navigationBarTitleText": "租车任务列表",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none" // 将回弹属性关掉
+				}
 			}
 		}
 	],
