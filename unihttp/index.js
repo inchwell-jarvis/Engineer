@@ -29,7 +29,7 @@ const http = (obj) => {
 						// 登录失效   自动跳转至登录页
 						if (Data.Code == 3) {
 							uni.navigateTo({
-								url: '/pages/Logo/Logo',
+								url: '/pages/signIn/index',
 							});
 							uni.hideLoading();
 							return false

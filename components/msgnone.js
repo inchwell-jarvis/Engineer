@@ -20,7 +20,7 @@ const http = (obj) => {
 						if (COdeState == 3) {
 							// 登录失效
 							uni.navigateTo({
-								url: '/pages/Logo/Logo',
+								url: '/pages/signIn/index',
 							});
 							return false
 						}

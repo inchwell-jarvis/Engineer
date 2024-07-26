@@ -160,7 +160,7 @@
 			}
 		},
 		{
-			"path": "pages/Logo/Logo",
+			"path": "pages/signIn/index",
 			"style": {
 				"app-plus": {
 					"titleNView": false,
@@ -290,7 +290,7 @@
 			}
 		},
 		{
-			"path": "pages/Logo/face",
+			"path": "pages/signIn/face",
 			"style": {
 				"navigationBarTitleText": "人脸识别"
 			}
@@ -688,7 +688,7 @@
 
 		},
 		{
-			"path": "pages/Logo/register",
+			"path": "pages/signIn/register",
 			"style": {
 				"navigationBarTitleText": "注册",
 				"enablePullDownRefresh": false

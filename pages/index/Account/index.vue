@@ -55,14 +55,14 @@ export default {
 							data: '',
 							success: function () {
 								uni.navigateTo({
-									url: '../../Logo/Logo'
+									url: '../../signIn/index'
 								});
 							}
 						});
 					}
 				});
 			});
-		},
+		}
 	}
 };
 </script>

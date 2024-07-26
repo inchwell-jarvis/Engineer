@@ -22,11 +22,11 @@ const httpsa = (obj) => {
 						if (COdeState == 3) {
 							console.log(
 								'-------------------------------------------------------------------------'
-								)
+							)
 							console.log(obj)
 							// 登录失效   自动跳转至登录页
 							uni.navigateTo({
-								url: '/pages/Logo/Logo',
+								url: '/pages/signIn/index',
 							});
 							uni.hideLoading();
 							return false
@@ -58,7 +58,7 @@ const httpsa = (obj) => {
 			}
 		})
 		console.log('上传位置')
-		
+
 		// 上传定位
 		getLocation()
 
