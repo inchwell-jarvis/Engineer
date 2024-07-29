@@ -760,6 +760,23 @@
 					"bounce": "none" // 将回弹属性关掉
 				}
 			}
+		},
+		{
+			"path": "pages/car_rental/distribution",
+			"style": {
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none" // 将回弹属性关掉
+				}
+			}
+		},
+		{
+			"path" : "pages/car_rental/order_details",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 
