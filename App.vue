@@ -26,6 +26,16 @@ export default {
 				}
 			}
 		});
+		// 获取工程师id
+		var obj = {
+			url: this.$store.state.url + 'PCenter/GetUserBaseInfoByToken',
+			method: 'GET',
+			data: {}
+		};
+		this.$http(obj).then((res) => {
+			console.log('获取gcsID');
+			this.$store.state.engineer_id = res.Data.Id;
+		});
 	},
 	methods: {}
 };

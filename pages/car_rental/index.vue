@@ -1,7 +1,7 @@
 <template>
 	<view class="order_list">
 		<u-navbar title="租车任务列表" :border-bottom="false">
-			<view class="slot-wrap"><u-icon name="reload" size="40" color="#606060" @tap="start()"></u-icon></view>
+			<view class="slot-wrap"><u-icon name="reload" size="40" color="#606060" @tap="start('刷新')"></u-icon></view>
 		</u-navbar>
 		<!-- tab -->
 		<u-tabs-swiper ref="uTabs" :list="list" :is-scroll="false" @change="tabsChange" :current="current"></u-tabs-swiper>
@@ -11,12 +11,16 @@
 				<swiper-item class="swiper-item" v-for="(list_item, list_index) in list" :key="list_index">
 					<scroll-view scroll-y class="scroll_id" @scrolltolower="onreachBottom">
 						<!-- 卡片 -->
-						<view class="order_item" v-for="(item, index) in list_item.state.length == 0 ? data : data.filter((item) => list_item.state.indexOf(item.State) != -1)" :key="index" @tap="view_details(item)">
+						<view class="order_item" v-for="(item, index) in filter_data(list_item, list_index)" :key="index" @tap="view_details(item)">
 							<!-- header -->
 							<div class="header_text">
 								<div class="header_cp">{{ item.Plate }}</div>
 								<div class="header_edit">
-									<span style="margin-right: 4px">{{ item.StateStr2 }}</span>
+									<span style="margin-right: 4px" v-if="item.State == 1">{{ item.StateStr2 }}</span>
+									<span style="margin-right: 4px; color: #e54337" v-else-if="item.State == 2 || item.State == 5">{{ item.StateStr2 }}</span>
+									<span style="margin-right: 4px; color: #df8316" v-else-if="item.State == 3 || item.State == 6">{{ item.StateStr2 }}</span>
+									<span style="margin-right: 4px; color: #35b250" v-else-if="item.State == 7">{{ item.StateStr2 }}</span>
+									<span style="margin-right: 4px; color: #181c2673" v-else>{{ item.StateStr2 }}</span>
 									<u-icon name="arrow-right" color="#181C2673"></u-icon>
 								</div>
 							</div>
@@ -28,12 +32,12 @@
 								</div>
 								<div class="item_content_text">
 									<div class="TargetDate">{{ item.web_time }}</div>
-									<p class="TargetAddress">{{ item.TargetAddress + item.TargetAddress + item.TargetAddress }}</p>
+									<p class="TargetAddress">{{ item.TargetAddress }}</p>
 								</div>
 							</div>
 							<!-- 分配 -->
 							<div class="but" v-if="item.State == 1">
-								<div class="button" @tap="distribution(item)">分配</div>
+								<div class="button" @tap.stop="distribution(item)">分配</div>
 							</div>
 							<!-- 接受 / 拒绝 -->
 							<div class="but" v-if="item.State == 2 || item.State == 5">
@@ -42,13 +46,17 @@
 							</div>
 							<!-- 送车 / 取车 -->
 							<div class="but" v-if="item.State == 3 || item.State == 6">
-								<div class="reassignment" @tap.stop="operation_task2(item, 0)">申请重分配</div>
+								<div class="reassignment">申请重分配</div>
 								<div class="contact_customers" @tap.stop="contact_customers(item)">
 									<u-icon name="phone-fill" color="#181c26" size="28"></u-icon>
 									联系客户
 								</div>
 								<div class="edit" v-if="item.State == 3" @tap.stop="operation_service(item)">{{ '我已送达' }}</div>
 								<div class="edit" v-if="item.State == 6" @tap.stop="operation_get(item)">{{ '我已取车' }}</div>
+							</div>
+							<!-- 归位 -->
+							<div class="but" v-if="item.State == 7">
+								<div class="button" @tap.stop="the_car_has_returned(item)">车已归位</div>
 							</div>
 						</view>
 						<!-- 如果没有卡片 -->
@@ -78,10 +86,20 @@
 				</div>
 				<div class="popclass_but">
 					<div class="popclass_buttton">
-						<div class="edit_quxiao">取消</div>
+						<div class="edit_quxiao" @tap="show = false">取消</div>
 						<div class="edit_queren" @tap="confirm_password()">确认</div>
 					</div>
 				</div>
+			</view>
+		</u-popup>
+
+		<!--  -->
+
+		<u-popup v-model="show2" mode="center" width="500rpx" height="150px" border-radius="20">
+			<view class="return_the_car">
+				<p class="p1">取车成功</p>
+				<p class="p2">请将车辆开往指定的办事处，或者送到下一个客户的预定送车地点。</p>
+				<div class="but" @tap="show2 = false">我知道了</div>
 			</view>
 		</u-popup>
 	</view>
@@ -91,6 +109,7 @@
 export default {
 	data() {
 		return {
+			waitDo: -1,
 			current: 0,
 			list: [
 				{
@@ -107,14 +126,15 @@ export default {
 				},
 				{
 					name: '待取送',
-					state: [3, 6]
+					state: [3, 6, 7]
 				}
 			],
 			data: [],
 			pick_up_code: '',
 			show: false, // 送车验证码弹窗
 			show_item: {}, // 送车信息
-			input_y: ''
+			input_y: '',
+			show2: false
 			// 未启动
 			// Waiting = 1,
 
@@ -148,9 +168,24 @@ export default {
 	},
 
 	methods: {
+		filter_data(list_item, index) {
+			if (index == 0) {
+				return this.data;
+			}
+			if (index == 1) {
+				return this.data.filter((item) => list_item.state.indexOf(item.State) != -1);
+			}
+			if (index == 2 || index == 3) {
+				let data = this.data.filter((item) => list_item.state.indexOf(item.State) != -1);
+				data = data.filter((item) => item.EngineerId == this.$store.state.engineer_id);
+				return data;
+			}
+		},
 		// tabs 通知 swiper 切换
 		tabsChange(index) {
 			this.current = index;
+			// this.waitDo = index == 0 ? -1 : index;
+			// this.start();
 		},
 		// swiper 通知 tabs 切换
 		animationfinish(e) {
@@ -164,7 +199,7 @@ export default {
 			console.log('加载更多···');
 		},
 		//
-		start() {
+		start(str) {
 			let data = { pageNum: 1, numPerPage: 999, orderField: '', orderDirection: '', cusName: '', plate: '', waitDo: -1, state: -1, Id: '', cusId: '' };
 			this.apix('CarRental/GetCarSOOrders', data).then((rv) => {
 				console.log(rv.Data.Dtos);
@@ -172,6 +207,13 @@ export default {
 				this.data.forEach((rv) => {
 					rv.web_time = this.date_conversion(rv.TargetDate) + ' ' + (rv.Direction == '送车' ? '送车上门' : '上门取车');
 				});
+				if (str) {
+					uni.showToast({
+						title: '刷新成功',
+						duration: 2000,
+						icon: 'success'
+					});
+				}
 			});
 		},
 		// view_details
@@ -245,6 +287,18 @@ export default {
 			});
 		},
 
+		// 归位
+		the_car_has_returned(item) {
+			this.apix('CarRental/UpdateCarSOOrderStateE', { ID: item.ID }, { method: 'post' }).then((rv) => {
+				uni.showToast({
+					title: '归位成功',
+					duration: 2000,
+					icon: 'success'
+				});
+				this.start();
+			});
+		},
+
 		//	送达  送达需要验证客户的取车码
 		operation_service(item) {
 			this.show = true;
@@ -253,11 +307,7 @@ export default {
 		// 取车  回当地的办事处
 		operation_get(item) {
 			this.apix('CarRental/UpdateCarSOOrderStateD', { ID: item.ID }, { method: 'post' }).then((rv) => {
-				uni.showToast({
-					title: '取车成功',
-					duration: 2000,
-					icon: 'success'
-				});
+				this.show2 = true;
 				this.start();
 			});
 		},
@@ -266,7 +316,7 @@ export default {
 			console.log(item);
 			// 综合正则表达式，适用于移动电话和固定电话
 			const phoneRegex = /^(\+?86)?(0\d{2,3}-)?1[3-9]\d{9}$|^(0\d{2,3}-)?\d{7,8}$/;
-			if (!phoneRegex.test(item.Mobile)) {
+			if (!phoneRegex.test(item.LinkMan.MobilePhone)) {
 				uni.showToast({
 					title: '电话格式不正确',
 					duration: 2000,
@@ -276,7 +326,7 @@ export default {
 			}
 
 			uni.makePhoneCall({
-				phoneNumber: item.Mobile //仅为示例
+				phoneNumber: item.LinkMan.MobilePhone //仅为示例
 			});
 		},
 		input_y_change(e) {
@@ -290,6 +340,7 @@ export default {
 					duration: 2000,
 					icon: 'success'
 				});
+				this.show = false;
 				this.start();
 			});
 		}
@@ -582,6 +633,42 @@ export default {
 					color: #ffffff;
 				}
 			}
+		}
+	}
+
+	.return_the_car {
+		width: 100%;
+		height: 100%;
+		padding: 15px;
+		box-sizing: border-box;
+		position: relative;
+		.p1 {
+			line-height: 26px;
+			font-size: 18px;
+			font-weight: bold;
+			text-align: center;
+		}
+		.p2 {
+			font-size: 13px;
+			color: #181c26b2;
+			line-height: 22px;
+			text-align: center;
+		}
+		.but {
+			width: calc(100% - 30px);
+			height: 40px;
+			border-radius: 8px;
+			background-color: #2e7bfd;
+			font-family: PingFang SC;
+			font-size: 16px;
+			font-weight: bold;
+			line-height: 40px;
+			text-align: center;
+			color: #ffffff;
+			position: absolute;
+			bottom: 15px;
+			left: 15px;
+			right: 15px;
 		}
 	}
 }

@@ -69,6 +69,18 @@ export default {
 		}
 	},
 	methods: {
+		// 获取工程师id
+		GetUserBaseInfoByToken() {
+			var obj = {
+				url: this.$store.state.url + 'PCenter/GetUserBaseInfoByToken',
+				method: 'GET',
+				data: {}
+			};
+			this.$http(obj).then((res) => {
+				this.$store.state.engineer_id = res.Data.Id;
+			});
+		},
+
 		// 注册
 		register_fun() {
 			uni.navigateTo({
@@ -186,6 +198,7 @@ export default {
 							key: 'admin',
 							data: that.account,
 							success: function () {
+								that.GetUserBaseInfoByToken();
 								//跳转至主页
 								uni.switchTab({
 									url: '/pages/home/home'
@@ -289,7 +302,6 @@ export default {
 					_self.$store.state.username = _self.account;
 					_self.$store.state.token = res.Data; //数据中心在线存储
 					_self.$store.state.FormalService = true;
-
 					uni.setStorage({
 						//将token存储在本地
 						key: 'Token',
@@ -300,6 +312,8 @@ export default {
 								key: 'admin',
 								data: _self.account,
 								success: function () {
+									_self.GetUserBaseInfoByToken();
+
 									uni.switchTab({
 										//跳转至主页
 										url: '/pages/home/home'

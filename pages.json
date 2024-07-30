@@ -772,10 +772,13 @@
 			}
 		},
 		{
-			"path" : "pages/car_rental/order_details",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/car_rental/order_details",
+			"style": {
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none" // 将回弹属性关掉
+				}
 			}
 		}
 	],
