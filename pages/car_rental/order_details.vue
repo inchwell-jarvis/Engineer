@@ -31,6 +31,7 @@
 			<div class="link_man_1">
 				<u-icon name="account" color="#181C26"></u-icon>
 				<span>联系人</span>
+				<span class="link_icon">客户</span>
 			</div>
 			<div class="link_man_2">
 				<div class="icon" @tap.stop="contact_customers()">
@@ -82,12 +83,12 @@
 			</div>
 			<!-- 接受 / 拒绝 -->
 			<div class="but" v-if="data.State == 2 || data.State == 5">
-				<div class="refuse" @tap.stop="operation_task(data, 0)">拒绝</div>
+				<div class="refuse" @tap.stop="(reallocate_pop_ups2 = true), (reallocate_pop_data2 = data)">拒绝</div>
 				<div class="accept" @tap.stop="operation_task(data, 1)">接受</div>
 			</div>
 			<!-- 送车 / 取车 -->
 			<div class="but" v-if="data.State == 3 || data.State == 6">
-				<div class="reassignment" @tap.stop="operation_task2(data, 0)">申请重分配</div>
+				<div class="reassignment" @tap.stop="reallocate_pop_ups_fun(data)">申请重分配</div>
 				<div class="contact_customers" @tap.stop="contact_customers()">
 					<u-icon name="phone-fill" color="#181c26" size="28"></u-icon>
 					联系客户
@@ -133,6 +134,28 @@
 				<div class="but" @tap="show2 = false">我知道了</div>
 			</view>
 		</u-popup>
+
+		<u-popup v-model="reallocate_pop_ups" mode="center" width="500rpx" height="150px" border-radius="20">
+			<view class="return_the_car">
+				<p class="p1">申请重分配</p>
+				<p class="p2">您确定要申请重分配 {{ reallocate_pop_data.web_time }} 任务吗？</p>
+				<div class="but2">
+					<div class="but2_1" @tap.stop="reallocate_pop_ups = false">再想想</div>
+					<div class="but2_1" @tap.stop="operation_task(data, 0)">确定</div>
+				</div>
+			</view>
+		</u-popup>
+
+		<u-popup v-model="reallocate_pop_ups2" mode="center" width="500rpx" height="150px" border-radius="20">
+			<view class="return_the_car">
+				<p class="p1">申请重分配</p>
+				<p class="p2">您确定要拒绝 {{ reallocate_pop_data2.web_time }} 任务吗？</p>
+				<div class="but2">
+					<div class="but2_1" @tap.stop="reallocate_pop_ups2 = false">再想想</div>
+					<div class="but2_1" @tap.stop="operation_task(reallocate_pop_data2, 0)">确定</div>
+				</div>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -147,7 +170,11 @@ export default {
 			show_item: {}, // 送车信息
 			input_y: '',
 			show2: false,
-			SystemLog2: []
+			SystemLog2: [],
+			reallocate_pop_ups: false, // 确认重新分配弹窗
+			reallocate_pop_data: {},
+			reallocate_pop_ups2: false, // 确认拒绝分配弹窗
+			reallocate_pop_data2: {}
 		};
 	},
 	onLoad(option) {
@@ -185,15 +212,24 @@ export default {
 				url: './distribution'
 			});
 		},
+		// 重新分配弹窗
+		reallocate_pop_ups_fun(data) {
+			this.reallocate_pop_data = data;
+			this.reallocate_pop_ups = true;
+		},
 
 		operation_task(item, num) {
 			this.apix('CarRental/UpdateCarSOOrderStateB', { id: item.ID, str: num }, { method: 'post' }).then((rv) => {
+				this.reallocate_pop_ups = false;
+				this.reallocate_pop_ups2 = false;
 				uni.showToast({
 					title: num ? '已接受' : '已拒绝',
 					duration: 2000,
 					icon: num ? 'success' : 'error'
 				});
-				this.start();
+				uni.navigateTo({
+					url: './index'
+				});
 			});
 		},
 
@@ -205,7 +241,9 @@ export default {
 					duration: 2000,
 					icon: 'success'
 				});
-				this.start();
+				uni.navigateTo({
+					url: './index'
+				});
 			});
 		},
 
@@ -218,7 +256,9 @@ export default {
 		operation_get(item) {
 			this.apix('CarRental/UpdateCarSOOrderStateD', { ID: item.ID }, { method: 'post' }).then((rv) => {
 				this.show2 = true;
-				this.start();
+				uni.navigateTo({
+					url: './index'
+				});
 			});
 		},
 		input_y_change(e) {
@@ -233,7 +273,9 @@ export default {
 					icon: 'success'
 				});
 				this.show = false;
-				this.start();
+				uni.navigateTo({
+					url: './index'
+				});
 			});
 		},
 		start() {
@@ -432,6 +474,14 @@ export default {
 			font-weight: bold;
 			span {
 				margin: 0 3px;
+			}
+			.link_icon {
+				font-size: 10px;
+				color: #ffffff;
+				font-weight: normal;
+				background: linear-gradient(114.95deg, #efb066 2.67%, #b56b16 83.89%);
+				border-radius: 2px;
+				padding: 2px 5px;
 			}
 		}
 		.link_man_2 {
@@ -721,6 +771,39 @@ export default {
 			bottom: 15px;
 			left: 15px;
 			right: 15px;
+		}
+
+		.but2 {
+			width: calc(100% - 30px);
+			height: 40px;
+			border-radius: 8px;
+			font-family: PingFang SC;
+			font-size: 16px;
+			font-weight: bold;
+			line-height: 40px;
+			text-align: center;
+			color: #ffffff;
+			position: absolute;
+			bottom: 15px;
+			left: 15px;
+			right: 15px;
+			display: flex; /* 启用flex布局 */
+			justify-content: space-between; /* 子级元素平均分布，两端对齐 */
+
+			.but2_1 {
+				width: 44%;
+				height: 100%;
+				border-radius: 4px;
+				background: #f5f6fa;
+				color: #000;
+				font-size: 14px;
+				line-height: 40px;
+				text-align: center;
+			}
+			.but2_1:nth-child(2) {
+				background: #e543371a;
+				color: #e54337;
+			}
 		}
 	}
 }

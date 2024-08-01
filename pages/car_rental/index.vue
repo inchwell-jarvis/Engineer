@@ -27,8 +27,8 @@
 							<!-- content -->
 							<div class="item_content">
 								<div class="item_content_biao">
-									<div class="biao_s" v-if="item.Direction == '送车'">送车</div>
-									<div class="biao_q" v-if="item.Direction == '取车'">取车</div>
+									<div class="biao_s" :style="{ background: [4, 8, 9].indexOf(item.State) != -1 ? '#E5433752' : '#e54337' }" v-if="item.Direction == '送车'">送车</div>
+									<div class="biao_q" :style="{ background: [4, 8, 9].indexOf(item.State) != -1 ? '#4170FC52' : '#e54337' }" v-if="item.Direction == '取车'">取车</div>
 								</div>
 								<div class="item_content_text">
 									<div class="TargetDate">{{ item.web_time }}</div>
@@ -41,12 +41,12 @@
 							</div>
 							<!-- 接受 / 拒绝 -->
 							<div class="but" v-if="item.State == 2 || item.State == 5">
-								<div class="refuse" @tap.stop="operation_task(item, 0)">拒绝</div>
+								<div class="refuse" @tap.stop="(reallocate_pop_ups2 = true), (reallocate_pop_data2 = item)">拒绝</div>
 								<div class="accept" @tap.stop="operation_task(item, 1)">接受</div>
 							</div>
 							<!-- 送车 / 取车 -->
 							<div class="but" v-if="item.State == 3 || item.State == 6">
-								<div class="reassignment">申请重分配</div>
+								<div class="reassignment" @tap.stop="reallocate_pop_ups_fun(item)">申请重分配</div>
 								<div class="contact_customers" @tap.stop="contact_customers(item)">
 									<u-icon name="phone-fill" color="#181c26" size="28"></u-icon>
 									联系客户
@@ -56,7 +56,7 @@
 							</div>
 							<!-- 归位 -->
 							<div class="but" v-if="item.State == 7">
-								<div class="button" @tap.stop="the_car_has_returned(item)">车已归位</div>
+								<div class="button" @tap.stop="(the_car_has_returned_pop = true), (reallocate_pop_data3 = item)">车已归位</div>
 							</div>
 						</view>
 						<!-- 如果没有卡片 -->
@@ -102,6 +102,38 @@
 				<div class="but" @tap="show2 = false">我知道了</div>
 			</view>
 		</u-popup>
+
+		<u-popup v-model="reallocate_pop_ups" mode="center" width="500rpx" height="150px" border-radius="20">
+			<view class="return_the_car">
+				<p class="p1">申请重分配</p>
+				<p class="p2">您确定要申请重分配 {{ reallocate_pop_data.web_time }} 任务吗？</p>
+				<div class="but2">
+					<div class="but2_1" @tap.stop="reallocate_pop_ups = false">再想想</div>
+					<div class="but2_1" @tap.stop="operation_task(reallocate_pop_data, 0)">确定</div>
+				</div>
+			</view>
+		</u-popup>
+
+		<u-popup v-model="reallocate_pop_ups2" mode="center" width="500rpx" height="150px" border-radius="20">
+			<view class="return_the_car">
+				<p class="p1">申请重分配</p>
+				<p class="p2">您确定要拒绝 {{ reallocate_pop_data2.web_time }} 任务吗？</p>
+				<div class="but2">
+					<div class="but2_1" @tap.stop="reallocate_pop_ups2 = false">再想想</div>
+					<div class="but2_1" @tap.stop="operation_task(reallocate_pop_data2, 0)">确定</div>
+				</div>
+			</view>
+		</u-popup>
+
+		<u-popup v-model="the_car_has_returned_pop" mode="center" width="500rpx" height="150px" border-radius="20">
+			<view class="return_the_car">
+				<p class="p3">车辆是否已经送到指定办事处？</p>
+				<div class="but2">
+					<div class="but2_2" @tap.stop="the_car_has_returned_pop = false">还没有</div>
+					<div class="but2_2" @tap.stop="the_car_has_returned(reallocate_pop_data3)">是</div>
+				</div>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -134,7 +166,14 @@ export default {
 			show: false, // 送车验证码弹窗
 			show_item: {}, // 送车信息
 			input_y: '',
-			show2: false
+			show2: false,
+			reallocate_pop_ups: false, // 确认重新分配弹窗
+			reallocate_pop_data: {},
+			reallocate_pop_ups2: false, // 确认拒绝分配弹窗
+			reallocate_pop_data2: {},
+			the_car_has_returned_pop: false, // 车归位弹窗
+			reallocate_pop_data3: {}
+
 			// 未启动
 			// Waiting = 1,
 
@@ -168,6 +207,12 @@ export default {
 	},
 
 	methods: {
+		// 重新分配弹窗
+		reallocate_pop_ups_fun(data) {
+			this.reallocate_pop_data = data;
+			this.reallocate_pop_ups = true;
+		},
+
 		filter_data(list_item, index) {
 			if (index == 0) {
 				return this.data;
@@ -206,6 +251,7 @@ export default {
 				this.data = rv.Data.Dtos;
 				this.data.forEach((rv) => {
 					rv.web_time = this.date_conversion(rv.TargetDate) + ' ' + (rv.Direction == '送车' ? '送车上门' : '上门取车');
+					// 给最上面加上角标
 				});
 				if (str) {
 					uni.showToast({
@@ -278,6 +324,8 @@ export default {
 
 		operation_task(item, num) {
 			this.apix('CarRental/UpdateCarSOOrderStateB', { id: item.ID, str: num }, { method: 'post' }).then((rv) => {
+				this.reallocate_pop_ups = false;
+				this.reallocate_pop_ups2 = false;
 				uni.showToast({
 					title: num ? '已接受' : '已拒绝',
 					duration: 2000,
@@ -290,6 +338,7 @@ export default {
 		// 归位
 		the_car_has_returned(item) {
 			this.apix('CarRental/UpdateCarSOOrderStateE', { ID: item.ID }, { method: 'post' }).then((rv) => {
+				this.the_car_has_returned_pop = false;
 				uni.showToast({
 					title: '归位成功',
 					duration: 2000,
@@ -654,6 +703,13 @@ export default {
 			line-height: 22px;
 			text-align: center;
 		}
+		.p3 {
+			font-family: PingFang SC;
+			font-size: 16px;
+			font-weight: bold;
+			line-height: 26px;
+			text-align: center;
+		}
 		.but {
 			width: calc(100% - 30px);
 			height: 40px;
@@ -669,6 +725,54 @@ export default {
 			bottom: 15px;
 			left: 15px;
 			right: 15px;
+		}
+
+		.but2 {
+			width: calc(100% - 30px);
+			height: 40px;
+			border-radius: 8px;
+			font-family: PingFang SC;
+			font-size: 16px;
+			font-weight: bold;
+			line-height: 40px;
+			text-align: center;
+			color: #ffffff;
+			position: absolute;
+			bottom: 15px;
+			left: 15px;
+			right: 15px;
+			display: flex; /* 启用flex布局 */
+			justify-content: space-between; /* 子级元素平均分布，两端对齐 */
+
+			.but2_1 {
+				width: 44%;
+				height: 100%;
+				border-radius: 4px;
+				background: #f5f6fa;
+				color: #000;
+				font-size: 14px;
+				line-height: 40px;
+				text-align: center;
+			}
+			.but2_1:nth-child(2) {
+				background: #e543371a;
+				color: #e54337;
+			}
+
+			.but2_2 {
+				width: 44%;
+				height: 100%;
+				border-radius: 4px;
+				background: #f5f6fa;
+				color: #000;
+				font-size: 14px;
+				line-height: 40px;
+				text-align: center;
+			}
+			.but2_2:nth-child(2) {
+				background: #2e7bfd;
+				color: #ffffff;
+			}
 		}
 	}
 }

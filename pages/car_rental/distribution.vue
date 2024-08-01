@@ -75,8 +75,8 @@ export default {
 					title: '任务分配成功',
 					duration: 2000
 				});
-				uni.navigateBack({
-					delta: 1 //返回层数，2则上上页
+				uni.navigateTo({
+					url: './index'
 				});
 			});
 		}

@@ -34,9 +34,10 @@
 		<view class="content">
 			<view android:gravity="center" class="list" v-for="(item, index) in $store.state.FormalService ? icon : icon_apple" :key="index" @tap="clickpath(index)">
 				<view v-if="index == 4 && Data.ReturnVisit != ''" class="degmdg">{{ Data.ReturnVisit }}</view>
-				<view v-if="index == 7 && Data.MCDelay != ''" class="degmdg">
-					{{ Data.MCDelay }}
+				<view v-if="index == 7 && $store.state.MCDelay + $store.state.CO != 0" class="degmdg">
+					{{ $store.state.MCDelay + $store.state.CO }}
 				</view>
+
 				<image mode="" :class="item.AmierIMG"></image>
 				<text>{{ item.text }}</text>
 			</view>
@@ -104,12 +105,7 @@ export default {
 				padding: '10px 10px'
 			},
 			//轮播图资源
-			imgList: [
-				require('../../static/img/banners/006.jpg'),
-				require('../../static/img/banners/007.jpg'),
-				require('../../static/img/banners/008.jpg'),
-				require('../../static/img/banners/009.jpg')
-			],
+			imgList: [require('../../static/img/banners/006.jpg'), require('../../static/img/banners/007.jpg'), require('../../static/img/banners/008.jpg'), require('../../static/img/banners/009.jpg')],
 			// 底部加的图标
 			botLidt: [
 				{
@@ -215,16 +211,7 @@ export default {
 				}
 			],
 			//点击跳转页面路径
-			path: [
-				'/pages/home/works/work.1',
-				'/pages/home/works/work.2',
-				'/pages/home/works/work.6',
-				'/pages/home/works/work.3',
-				'/pages/home/works/work.5',
-				'/pages/home/works/work.4',
-				'/pages/home/works/work.7',
-				'/pages/home/works/work.8'
-			],
+			path: ['/pages/home/works/work.1', '/pages/home/works/work.2', '/pages/home/works/work.6', '/pages/home/works/work.3', '/pages/home/works/work.5', '/pages/home/works/work.4', '/pages/home/works/work.7', '/pages/home/works/work.8'],
 			Data: {},
 			imgData: [],
 			Video: '',
@@ -350,7 +337,7 @@ export default {
 			this.Video = '';
 			this.OPVideo = false;
 		},
-		// 
+		//
 		GetGCSHome: function () {
 			var obj = {
 				url: this.$store.state.url + 'System/GetGCSHome',
@@ -359,7 +346,7 @@ export default {
 			this.$httpnone(obj).then((res) => {
 				this.Data = res.Data;
 				// 记录工程师的区域
-				this.$store.state.EnginnerStateArea = this.Data.EnginnerState.Area
+				this.$store.state.EnginnerStateArea = this.Data.EnginnerState.Area;
 				console.log(this.Data);
 				// 判断是否有未读消息
 				if (res.Data.NoReadJournalism != 0) {
@@ -370,7 +357,11 @@ export default {
 				}
 				// 当状态为空闲时  判断是否存在其他任务
 				if (this.Data.EnginnerState.Detail == '空闲' && this.Data.EnginnerWorking.length != 0) this.Data.EnginnerState.Detail = 'WaitStatus';
-				this.$store.state.MCDelay = this.Data.MCDelay;
+				this.$store.state.MCDelay = 0;
+				this.$store.state.CO = 0;
+
+				this.$store.state.MCDelay = this.Data.MCDelay ? Number(this.Data.MCDelay) : 0;
+				this.$store.state.CO = this.Data.CO ? Number(this.Data.CO) : 0;
 				// 判断是否弹出信息窗口
 				if (res.Data.EjectMessage != null) {
 					uni.showModal({
@@ -402,9 +393,7 @@ export default {
 		},
 		CliOPVideo: function (Row) {
 			if (Row.Video != null) {
-				(this.posterhttp = 'http://icms.inchwell.com.cn/file/IndexBanner/' + Row.Image),
-					(this.Video = 'http://icms.inchwell.com.cn/file/IndexBanner/' + Row.Video),
-					console.log(this.Video);
+				(this.posterhttp = 'http://icms.inchwell.com.cn/file/IndexBanner/' + Row.Image), (this.Video = 'http://icms.inchwell.com.cn/file/IndexBanner/' + Row.Video), console.log(this.Video);
 				this.OPVideo = true;
 			}
 		},

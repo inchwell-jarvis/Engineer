@@ -5,6 +5,7 @@
 
 			<view v-for="(itemm, indexs) of item.icon" :key="indexs" class="div" @tap="Url(item, indexs)">
 				<view v-if="itemm.text == '保养延迟' && byhcStr != 0" class="degmdg">{{ byhcStr }}</view>
+				<view v-if="itemm.text == '取送车任务' && COstr != 0" class="degmdg">{{ COstr }}</view>
 				<view class="icons">
 					<image class="icon" :src="itemm.icon" @click="con(itemm)" alt />
 				</view>
@@ -19,6 +20,7 @@ export default {
 	data() {
 		return {
 			byhcStr: this.$store.state.MCDelay,
+			COstr: this.$store.state.CO,
 			name: '全部',
 			imgsss: [
 				{
