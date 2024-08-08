@@ -116,7 +116,7 @@
 
 		<u-popup v-model="reallocate_pop_ups2" mode="center" width="500rpx" height="150px" border-radius="20">
 			<view class="return_the_car">
-				<p class="p1">申请重分配</p>
+				<p class="p1">申请拒绝</p>
 				<p class="p2">您确定要拒绝 {{ reallocate_pop_data2.web_time }} 任务吗？</p>
 				<div class="but2">
 					<div class="but2_1" @tap.stop="reallocate_pop_ups2 = false">再想想</div>

@@ -282,7 +282,7 @@ export default {
 			let data = { pageNum: 1, numPerPage: 999, orderField: '', orderDirection: '', cusName: '', plate: '', waitDo: -1, state: -1, Id: this.Id, cusId: '' };
 			this.apix('CarRental/GetCarSOOrders', data).then((rv) => {
 				this.data = rv.Data.Dtos[0];
-				this.SystemLog2 = this.data.SystemLog.split('@');
+
 				console.log(this.SystemLog2);
 				// 完善图片地址
 				this.data.Image = this.$store.state.httpurl + this.data.Image;

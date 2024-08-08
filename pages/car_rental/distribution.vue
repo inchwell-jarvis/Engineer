@@ -10,7 +10,7 @@
 					<u-icon v-if="index_ == index" name="checkmark-circle-fill" color="#4170FC" size="40"></u-icon>
 					{{ item.Name }}
 				</div>
-				<div class="position">目前位置：请注意，这个函数假设日期字符串是有效的，并且遵循ISO 8601格式（YYYY-MM-DDTHH:mm:ss）。此外，这个函数不处理时区差异，所有计算都是基于本地时间。如果你需要处理UTC时间或者不同的时间格式，你可能需要对代码进行相应的调整。</div>
+				<div class="position">目前位置：</div>
 			</div>
 		</view>
 	</view>
