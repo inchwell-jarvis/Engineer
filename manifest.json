@@ -1,183 +1,183 @@
 {
-    "name" : "英之杰工程师",
-    "appid" : "__UNI__FB3B110",
-    "description" : "",
-    "versionName" : "3.07.20",
-    "versionCode" : 307200,
-    "transformPx" : false,
-    /* 5+App特有相关 */
-    "app-plus" : {
-        "compatible" : {
-            "ignoreVersion" : true //true表示忽略版本检查提示框，HBuilderX1.9.0及以上版本支持  
-        },
-        "usingComponents" : true,
-        "nvueCompiler" : "uni-app",
-        "splashscreen" : {
-            "alwaysShowBeforeRender" : true,
-            "waiting" : true,
-            "autoclose" : true,
-            "delay" : 0
-        },
-        /* 模块配置 */
-        "modules" : {
-            "FaceID" : {},
-            "VideoPlayer" : {},
-            "Geolocation" : {},
-            "iBeacon" : {},
-            "Maps" : {},
-            "Barcode" : {},
-            "Camera" : {}
-        },
-        /* 应用发布信息 */
-        "distribute" : {
-            /* android打包配置 */
-            "android" : {
-                "permissions" : [
-                    "<uses-feature android:name=\"android.hardware.camera\"/>",
-                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.BLUETOOTH\"/>",
-                    "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\"/>",
-                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
-                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
-                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
-                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
-                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
-                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_SMS\"/>",
-                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
-                    "<uses-permission android:name=\"android.permission.SEND_SMS\"/>",
-                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
-                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_SMS\"/>"
-                ]
-            },
-            /* ios打包配置 */
-            "ios" : {
-                "dSYMs" : false,
-                "privacyDescription" : {
-                    "NSCameraUsageDescription" : "获取您的面部数据用于登录",
-                    "NSFaceIDUsageDescription" : "获取您的面部数据用于登录",
-                    "NSLocationWhenInUseUsageDescription" : "位置授权服务将帮助您精准接收订单、记录行程轨迹，并为您推送周边的服务或信息，让您享受更加便捷的使用体验。"
-                },
-                "idfa" : false
-            },
-            /* SDK配置 */
-            "sdkConfigs" : {
-                "ad" : {},
-                "maps" : {
-                    "amap" : {
-                        "appkey_ios" : "0594ffb8e70d7768be9a2e52e3c116f5",
-                        "appkey_android" : "4cb5f06c735aff863f19fba1e7cc476c"
-                    }
-                },
-                "push" : {},
-                "geolocation" : {
-                    "amap" : {
-                        "__platform__" : [ "ios", "android" ],
-                        "appkey_ios" : "0594ffb8e70d7768be9a2e52e3c116f5",
-                        "appkey_android" : "4cb5f06c735aff863f19fba1e7cc476c"
-                    }
-                }
-            },
-            "icons" : {
-                "android" : {
-                    "hdpi" : "unpackage/res/icons/72x72.png",
-                    "xhdpi" : "unpackage/res/icons/96x96.png",
-                    "xxhdpi" : "unpackage/res/icons/144x144.png",
-                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
-                },
-                "ios" : {
-                    "appstore" : "unpackage/res/icons/1024x1024.png",
-                    "ipad" : {
-                        "app" : "unpackage/res/icons/76x76.png",
-                        "app@2x" : "unpackage/res/icons/152x152.png",
-                        "notification" : "unpackage/res/icons/20x20.png",
-                        "notification@2x" : "unpackage/res/icons/40x40.png",
-                        "proapp@2x" : "unpackage/res/icons/167x167.png",
-                        "settings" : "unpackage/res/icons/29x29.png",
-                        "settings@2x" : "unpackage/res/icons/58x58.png",
-                        "spotlight" : "unpackage/res/icons/40x40.png",
-                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
-                    },
-                    "iphone" : {
-                        "app@2x" : "unpackage/res/icons/120x120.png",
-                        "app@3x" : "unpackage/res/icons/180x180.png",
-                        "notification@2x" : "unpackage/res/icons/40x40.png",
-                        "notification@3x" : "unpackage/res/icons/60x60.png",
-                        "settings@2x" : "unpackage/res/icons/58x58.png",
-                        "settings@3x" : "unpackage/res/icons/87x87.png",
-                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
-                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
-                    }
-                }
-            },
-            "splashscreen" : {
-                "androidStyle" : "common",
-                "android" : {
-                    "hdpi" : "C:/Users/zhaohongfei/Desktop/图怪兽_341eec0c464f7422bf1e521f1d943416_82971.png",
-                    "xhdpi" : "C:/Users/zhaohongfei/Desktop/图怪兽_341eec0c464f7422bf1e521f1d943416_82971.png",
-                    "xxhdpi" : "C:/Users/zhaohongfei/Desktop/图怪兽_341eec0c464f7422bf1e521f1d943416_82971.png"
-                }
-            }
-        },
-        "compilerVersion" : 3,
-        "nativePlugins" : {
-            "PP-BaiduFace" : {
-                "__plugin_info__" : {
-                    "name" : "【66元特惠】双端百度人脸采集、活体检测  免费支持",
-                    "description" : "【66元特惠】百度人脸采集 活体识别 双端、 前后摄   联系作者免费协助 另有本地版插件提供",
-                    "platforms" : "Android,iOS",
-                    "url" : "https://ext.dcloud.net.cn/plugin?id=800",
-                    "android_package_name" : "com.gcs.yzj",
-                    "ios_bundle_id" : "com.gcs.yzj",
-                    "isCloud" : true,
-                    "bought" : 1,
-                    "pid" : "800",
-                    "parameters" : {}
-                }
-            }
-        }
-    },
-    /* 快应用特有相关 */
-    "quickapp" : {},
-    /* 小程序特有相关 */
-    "mp-weixin" : {
-        "appid" : "",
-        "setting" : {
-            "urlCheck" : false
-        },
-        "usingComponents" : true
-    },
-    "mp-alipay" : {
-        "usingComponents" : true
-    },
-    "mp-baidu" : {
-        "usingComponents" : true
-    },
-    "mp-toutiao" : {
-        "usingComponents" : true
-    },
-    "h5" : {
-        "sdkConfigs" : {
-            "maps" : {}
-        }
-    },
-    "mp-qq" : {
-        "setting" : {
-            "urlCheck" : false,
-            "minified" : true
-        }
-    },
-    "locale" : "zh-Hans",
-    "fallbackLocale" : "zh-Hans"
+	"name": "英之杰工程师",
+	"appid": "__UNI__FB3B110",
+	"description": "",
+	"versionName": "3.07.21",
+	"versionCode": 307210,
+	"transformPx": false,
+	/* 5+App特有相关 */
+	"app-plus": {
+		"compatible": {
+			"ignoreVersion": true //true表示忽略版本检查提示框，HBuilderX1.9.0及以上版本支持  
+		},
+		"usingComponents": true,
+		"nvueCompiler": "uni-app",
+		"splashscreen": {
+			"alwaysShowBeforeRender": true,
+			"waiting": true,
+			"autoclose": true,
+			"delay": 0
+		},
+		/* 模块配置 */
+		"modules": {
+			"FaceID": {},
+			"VideoPlayer": {},
+			"Geolocation": {},
+			"iBeacon": {},
+			"Maps": {},
+			"Barcode": {},
+			"Camera": {}
+		},
+		/* 应用发布信息 */
+		"distribute": {
+			/* android打包配置 */
+			"android": {
+				"permissions": [
+					"<uses-feature android:name=\"android.hardware.camera\"/>",
+					"<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.BLUETOOTH\"/>",
+					"<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\"/>",
+					"<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+					"<uses-permission android:name=\"android.permission.CAMERA\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+					"<uses-permission android:name=\"android.permission.INTERNET\"/>",
+					"<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+					"<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+					"<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+					"<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.READ_SMS\"/>",
+					"<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+					"<uses-permission android:name=\"android.permission.SEND_SMS\"/>",
+					"<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+					"<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_SMS\"/>"
+				]
+			},
+			/* ios打包配置 */
+			"ios": {
+				"dSYMs": false,
+				"privacyDescription": {
+					"NSCameraUsageDescription": "获取您的面部数据用于登录",
+					"NSFaceIDUsageDescription": "获取您的面部数据用于登录",
+					"NSLocationWhenInUseUsageDescription": "位置授权服务将帮助您精准接收订单、记录行程轨迹，并为您推送周边的服务或信息，让您享受更加便捷的使用体验。"
+				},
+				"idfa": false
+			},
+			/* SDK配置 */
+			"sdkConfigs": {
+				"ad": {},
+				"maps": {
+					"amap": {
+						"appkey_ios": "0594ffb8e70d7768be9a2e52e3c116f5",
+						"appkey_android": "4cb5f06c735aff863f19fba1e7cc476c"
+					}
+				},
+				"push": {},
+				"geolocation": {
+					"amap": {
+						"__platform__": ["ios", "android"],
+						"appkey_ios": "0594ffb8e70d7768be9a2e52e3c116f5",
+						"appkey_android": "4cb5f06c735aff863f19fba1e7cc476c"
+					}
+				}
+			},
+			"icons": {
+				"android": {
+					"hdpi": "unpackage/res/icons/72x72.png",
+					"xhdpi": "unpackage/res/icons/96x96.png",
+					"xxhdpi": "unpackage/res/icons/144x144.png",
+					"xxxhdpi": "unpackage/res/icons/192x192.png"
+				},
+				"ios": {
+					"appstore": "unpackage/res/icons/1024x1024.png",
+					"ipad": {
+						"app": "unpackage/res/icons/76x76.png",
+						"app@2x": "unpackage/res/icons/152x152.png",
+						"notification": "unpackage/res/icons/20x20.png",
+						"notification@2x": "unpackage/res/icons/40x40.png",
+						"proapp@2x": "unpackage/res/icons/167x167.png",
+						"settings": "unpackage/res/icons/29x29.png",
+						"settings@2x": "unpackage/res/icons/58x58.png",
+						"spotlight": "unpackage/res/icons/40x40.png",
+						"spotlight@2x": "unpackage/res/icons/80x80.png"
+					},
+					"iphone": {
+						"app@2x": "unpackage/res/icons/120x120.png",
+						"app@3x": "unpackage/res/icons/180x180.png",
+						"notification@2x": "unpackage/res/icons/40x40.png",
+						"notification@3x": "unpackage/res/icons/60x60.png",
+						"settings@2x": "unpackage/res/icons/58x58.png",
+						"settings@3x": "unpackage/res/icons/87x87.png",
+						"spotlight@2x": "unpackage/res/icons/80x80.png",
+						"spotlight@3x": "unpackage/res/icons/120x120.png"
+					}
+				}
+			},
+			"splashscreen": {
+				"androidStyle": "common",
+				"android": {
+					"hdpi": "C:/Users/zhaohongfei/Desktop/图怪兽_341eec0c464f7422bf1e521f1d943416_82971.png",
+					"xhdpi": "C:/Users/zhaohongfei/Desktop/图怪兽_341eec0c464f7422bf1e521f1d943416_82971.png",
+					"xxhdpi": "C:/Users/zhaohongfei/Desktop/图怪兽_341eec0c464f7422bf1e521f1d943416_82971.png"
+				}
+			}
+		},
+		"compilerVersion": 3,
+		"nativePlugins": {
+			"PP-BaiduFace": {
+				"__plugin_info__": {
+					"name": "【66元特惠】双端百度人脸采集、活体检测  免费支持",
+					"description": "【66元特惠】百度人脸采集 活体识别 双端、 前后摄   联系作者免费协助 另有本地版插件提供",
+					"platforms": "Android,iOS",
+					"url": "https://ext.dcloud.net.cn/plugin?id=800",
+					"android_package_name": "com.gcs.yzj",
+					"ios_bundle_id": "com.gcs.yzj",
+					"isCloud": true,
+					"bought": 1,
+					"pid": "800",
+					"parameters": {}
+				}
+			}
+		}
+	},
+	/* 快应用特有相关 */
+	"quickapp": {},
+	/* 小程序特有相关 */
+	"mp-weixin": {
+		"appid": "",
+		"setting": {
+			"urlCheck": false
+		},
+		"usingComponents": true
+	},
+	"mp-alipay": {
+		"usingComponents": true
+	},
+	"mp-baidu": {
+		"usingComponents": true
+	},
+	"mp-toutiao": {
+		"usingComponents": true
+	},
+	"h5": {
+		"sdkConfigs": {
+			"maps": {}
+		}
+	},
+	"mp-qq": {
+		"setting": {
+			"urlCheck": false,
+			"minified": true
+		}
+	},
+	"locale": "zh-Hans",
+	"fallbackLocale": "zh-Hans"
 }

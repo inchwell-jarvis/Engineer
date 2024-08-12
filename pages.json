@@ -48,15 +48,21 @@
 			"path": "pages/home/works/work.1",
 			"style": {
 				"navigationBarTitleText": "工单管理",
+				"onReachBottomDistance": 100, //触发的距离
 				"app-plus": {
-					"titleNView": false
+					"bounce": "none", // 将回弹属性关掉
+					"titleNView": false // 关闭原导航栏
 				}
 			}
 		},
 		{
 			"path": "pages/home/works/work.2",
 			"style": {
-				"navigationBarTitleText": "订单列表"
+				"navigationBarTitleText": "订单列表",
+				"onReachBottomDistance": 100, //触发的距离
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
 			}
 		},
 		{
@@ -100,17 +106,10 @@
 			"path": "pages/home/works/work.6",
 			"style": {
 				"navigationBarTitleText": "安装管理",
-				"onReachBottomDistance": 500, //触发的距离
+				"onReachBottomDistance": 100, //触发的距离
 				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							// "text": "\u25A2", // 字体图标\u 开头，加上字体图标unicode后面四位
-							"text": "\ue601",
-							"fontSrc": "./static/icon/ttf/lishi.ttf",
-							"fontSize": "30px"
-							// "color": "#686868"
-						}]
-					}
+					"bounce": "none", // 将回弹属性关掉
+					"titleNView": false // 关闭原导航栏
 				}
 			}
 		},
@@ -473,7 +472,10 @@
 			"path": "pages/home/works/one/OneListLS",
 			"style": {
 				"navigationBarTitleText": "工单历史",
-				"enablePullDownRefresh": false
+				"onReachBottomDistance": 100, //触发的距离
+				"app-plus": {
+					"bounce": "none" // 将回弹属性关掉
+				}
 			}
 
 		},

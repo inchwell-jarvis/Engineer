@@ -1,8 +1,6 @@
 <template>
-	<view class="box">
-		<u-empty v-if='Data.Dtos.length == 0' text="暂无需要购买的配件" mode="message"></u-empty>
-
-		<u-card v-for="(item, index) in Data.Dtos" :key="index" @tap="order(item)" :title="item.SOCode" :sub-title="item.CreateDateStr">
+	<view class="order_list">
+		<u-card v-for="(item, index) in data" :key="index" @tap="order(item)" :title="item.SOCode" :sub-title="item.CreateDateStr">
 			<view class="" slot="body">
 				<view class="u-body-item u-flex u-row-between u-p-b-0">
 					<view class="u-body-item-title u-line-2" style="color: #2979ff">{{ item.CusName }}</view>
@@ -12,15 +10,43 @@
 				<u-icon name="coupon-fill" size="34" color="#fcbd71" :label="item.StateStr"></u-icon>
 			</view>
 		</u-card>
+
+		<!-- 无数据 -->
+		<view v-if="data.length == 0" class="no_data_available">
+			<u-empty text="暂无需要购买的配件" mode="data"></u-empty>
+		</view>
+
+		<!-- 已加载全部数据 -->
+		<u-loadmore :status="status" :icon-type="iconType" :load-text="loadText" />
 	</view>
 </template>
 <script>
 export default {
 	data() {
 		return {
-			name: '赵鸿飞',
-			numPerPage: 20, //展示条数
-			Data: []
+			data: [],
+
+			// 检索信息
+			search_data: {
+				pageNum: 1,
+				numPerPage: 20,
+				orderField: '',
+				orderDirection: '',
+				search: ''
+			},
+
+			// 正在加载数据
+			loading: true,
+			DataBars: 0, //总数据量
+
+			// 上拉加载提示
+			status: 'loadmore',
+			iconType: 'flower',
+			loadText: {
+				loadmore: '轻轻上拉',
+				loading: '努力加载中',
+				nomore: '已加载全部数据'
+			}
 		};
 	},
 	onBackPress() {
@@ -31,10 +57,24 @@ export default {
 		return true;
 	},
 	created() {
-		this.init();
+		this.start();
+	},
+	onReachBottom() {
+		console.log('加载更多');
+		if (this.loading) {
+			if (this.data.length < this.DataBars) {
+				this.search_data.pageNum += 1;
+				this.start();
+			} else {
+				console.log('已加载全部数据！');
+			}
+		}
 	},
 	methods: {
-		init() {
+		start() {
+			// 加载时设置状态false
+			this.loading = false;
+			this.status = 'loading';
 			var obj = {
 				url: this.$store.state.url + '/SO/GetSOs',
 				method: 'GET',
@@ -48,12 +88,18 @@ export default {
 				}
 			};
 			this.$http(obj).then((res) => {
-				this.Data = res.Data;
-				// for(var i = 0; i < this.Data.Dtos.length; i ++){
-				// 	this.Data.Dtos[i].CusName = this.Data.Dtos[i].CusName.substring(0,17)
-				// }
+				console.log(res);
+				this.data = this.data.concat(res.Data.Dtos);
+				this.loading = true;
+				this.DataBars = res.Data.DataBars;
+				this.status = 'loadmore';
+
+				if (this.data.length >= this.DataBars) {
+					this.status = 'nomore';
+				}
 			});
 		},
+		//
 		order(item) {
 			this.$store.state.SOId = item.SOId;
 			uni.navigateTo({
@@ -65,7 +111,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.box {
+.order_list {
+	width: 100%;
+
+	.no_data_available {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+	}
+
 	.boxx {
 		width: 100%;
 		height: 70px;

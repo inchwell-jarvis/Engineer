@@ -9,7 +9,7 @@ const http = (obj) => {
 				// 首先进行接口
 				uni.request({
 					url: obj.url,
-					method: obj.method,
+					method: obj.method || 'GET',
 					header: {
 						'Token': TokenId
 					},
