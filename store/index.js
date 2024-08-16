@@ -12,14 +12,14 @@ const store = new Vuex.Store({
 		ClientUpdateAddress: 'http://icms.inchwell.com.cn/web/downloadgcsApp.html', //客户端更新地址
 
 		// 测试接口
-		url: 'http://39.100.116.85:6001/api/', //  ·············				接口头部
-		httpurl: 'http://39.100.116.85:6001', //  ··············				外部路径
-		httpimgs: 'http://39.100.116.85:6001', // ··············				零配件  九图  链接头部
+		// url: 'http://39.100.116.85:6001/api/', //  ·············				接口头部
+		// httpurl: 'http://39.100.116.85:6001', //  ··············				外部路径
+		// httpimgs: 'http://39.100.116.85:6001', // ··············				零配件  九图  链接头部
 
 		// 生产环境
-		// url: 'http://webapi.inchwell.com.cn/api/', //  ·············					接口头部
-		// httpurl: 'http://webapi.inchwell.com.cn', //  ··············					外部路径
-		// httpimgs: 'http://webapi.inchwell.com.cn', // ··············					零配件  九图  链接头部
+		url: 'http://webapi.inchwell.com.cn/api/', //  ·············					接口头部
+		httpurl: 'http://webapi.inchwell.com.cn', //  ··············					外部路径
+		httpimgs: 'http://webapi.inchwell.com.cn', // ··············					零配件  九图  链接头部
 
 
 		Updata: true,
