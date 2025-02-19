@@ -782,6 +782,16 @@
 					"bounce": "none" // 将回弹属性关掉
 				}
 			}
+		},
+		{
+			"path": "pages/home/works/InstallationTask/sf_express",
+			"style": {
+				"navigationBarTitleText": "物流日志",
+				"app-plus": {
+					"titleNView": false, //关闭导航栏
+					"popGesture": "none" // 关闭侧滑返回
+				}
+			}
 		}
 	],
 

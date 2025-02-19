@@ -26,6 +26,10 @@
 				<view class="span">当前状态：</view> {{Data.Dto.StateStr}}
 			</view>
 			<view class="text">
+				<view class="span">物流单号：</view>
+				<span style="color: #409EFF;" @click="view_logistics(Data.Dto.TrackingNumber)">{{ Data.Dto.TrackingNumber }}</span>
+			</view>
+			<view class="text">
 				<view class="span">区域经理：</view> {{Data.Dto.Manager}}
 			</view>
 			<view class="text">
@@ -47,8 +51,7 @@
 
 
 		<view class="titles" v-if="Data.EnginnerDtos != undefined && Data.EnginnerDtos.length != 0">工程师</view>
-		<u-button v-if="Data.EnginnerDtos != undefined && Data.EnginnerDtos.length != 0" type="success" size="mini"
-			style='float: right;margin-right: 2.5%;margin-top: 5px;' @click="show = true">增派工程师</u-button>
+		<u-button v-if="Data.EnginnerDtos != undefined && Data.EnginnerDtos.length != 0" type="success" size="mini" style='float: right;margin-right: 2.5%;margin-top: 5px;' @click="show = true">增派工程师</u-button>
 		<view class="basicinformation" v-if="Data.EnginnerDtos" v-for="(item,index) in Data.EnginnerDtos" :key="index">
 			<view class="text">
 				<view class="span">姓名：</view> {{item.Name}}
@@ -67,8 +70,7 @@
 			附件
 		</view>
 		<!--  -->
-		<image class="pdf" src="../../../../static/icon/icon/PD.png" mode="" @click="PDF(items)"
-			v-for="(items,indexss) in Data.FileDtos" :key="indexss+666"></image>
+		<image class="pdf" src="../../../../static/icon/icon/PD.png" mode="" @click="PDF(items)" v-for="(items,indexss) in Data.FileDtos" :key="indexss+666"></image>
 
 		<view class="titles" v-if=" Data.Dto && Data.Dto.State == 2 ">
 			设备
@@ -105,16 +107,13 @@
 
  -->
 		<!-- 工程师选择 -->
-		<u-popup v-model="show" mode="bottom" length="60%" :closeable='true' close-icon-pos='top-left'
-			border-radius='10'>
+		<u-popup v-model="show" mode="bottom" length="60%" :closeable='true' close-icon-pos='top-left' border-radius='10'>
 			<view class="content">
 				<u-button type="primary" size="medium" @click="close()">确定</u-button>
 				<scroll-view scroll-y="true" class="ListView">
 					<u-cell-group>
-						<u-cell-item :arrow="false" icon="man-add-fill" v-for="(item,index) in gcss" :key="index"
-							:title="item.Name">
-							<switch :value="item.switch" :checked="item.switch" @tap="switchs(index)"
-								style="transform:scale(0.6)" />
+						<u-cell-item :arrow="false" icon="man-add-fill" v-for="(item,index) in gcss" :key="index" :title="item.Name">
+							<switch :value="item.switch" :checked="item.switch" @tap="switchs(index)" style="transform:scale(0.6)" />
 						</u-cell-item>
 					</u-cell-group>
 				</scroll-view>
@@ -146,11 +145,26 @@
 				this.httpgcs()
 		},
 		methods: {
+
+			// 查看物流
+			view_logistics(code) {
+				console.log(code)
+				uni.navigateTo({
+					url: '/pages/home/works/InstallationTask/sf_express?sf_express=' + code
+				})
+			},
+
 			// 打电话
 			Tel: function(str) {
 				uni.makePhoneCall({
 					phoneNumber: str //仅为示例
 				});
+			},
+			extractTrackingNumber(str) {
+				if (typeof str !== 'string') return '';
+
+				const match = str.match(/物流单号\[(.*?)\]/);
+				return match ? match[1] : '';
 			},
 			// 初始数据
 			initdata: function() {
@@ -170,7 +184,14 @@
 				}
 				this.$http(obj).then((res) => {
 					console.log(res.Data)
+					console.log(res.Data.Dto.Origin)
+
 					this.Data = res.Data
+					// 分割出物流单号
+					this.Data.Dto.TrackingNumber = this.extractTrackingNumber(this.Data.Dto.Origin)
+					console.log(this.Data.Dto.TrackingNumber)
+
+					// 
 					this.State = res.Data.Dto.State
 					var Time = this.Data.Dto
 					Time.CreateDate = this.timeLv(Time.CreateDate);

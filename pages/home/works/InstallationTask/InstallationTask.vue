@@ -33,6 +33,10 @@
 				{{ Data.Dto.StateStr }}
 			</view>
 			<view class="text">
+				<view class="span">物流单号：</view>
+				<span style="color: #409EFF;" @click="view_logistics(Data.Dto.TrackingNumber)">{{ Data.Dto.TrackingNumber }}</span>
+			</view>
+			<view class="text">
 				<view class="span">区域经理：</view>
 				{{ Data.Dto.Manager }}
 			</view>
@@ -227,299 +231,340 @@
 </template>
 
 <script>
-import { pathToBase64 } from '../../../../components/Base64/index.js';
-import API_GET from '../../../../utils/API_GET.js';
-import UploadPictures from '../../../../components/UploadPictures/UploadPictures.vue';
+	import { pathToBase64 } from '../../../../components/Base64/index.js';
+	import API_GET from '../../../../utils/API_GET.js';
+	import UploadPictures from '../../../../components/UploadPictures/UploadPictures.vue';
 
-export default {
-	data() {
-		return {
-			action: 'http://www.example.com/uploadi',
-			OldPieces: false,
-			SendBackData: [],
-			mobile: '',
-			Data: {}, //总数据
-			gcss: [], //gcs集合
-			Gcsscz: false,
-			DataType: this.$store.state.InstallationTaskresIndex,
-			Str: '', //工作内容
-			imgLength: 0,
-			ImgData: [],
-			url: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-dc-site/9a952c80-6080-11eb-a16f-5b3e54966275.png',
-			sourceType: ['camera', 'album'],
-			img: [],
+	export default {
+		data() {
+			return {
+				action: 'http://www.example.com/uploadi',
+				OldPieces: false,
+				SendBackData: [],
+				mobile: '',
+				Data: {}, //总数据
+				gcss: [], //gcs集合
+				Gcsscz: false,
+				DataType: this.$store.state.InstallationTaskresIndex,
+				Str: '', //工作内容
+				imgLength: 0,
+				ImgData: [],
+				url: 'https://bjetxgzv.cdn.bspapp.com/VKCEYUGU-dc-site/9a952c80-6080-11eb-a16f-5b3e54966275.png',
+				sourceType: ['camera', 'album'],
+				img: [],
 
-			popup_task: false,
-			task_textarea: ''
-		};
-	},
-	components: {
-		UploadPictures
-	},
-	created() {
-		this.initdata();
-		this.obtainEngineer();
-	},
-	methods: {
-		// 远程完成出发和到达
-		RemoteProcessingTask() {
-			console.log(this.task_textarea);
-			if (this.task_textarea.trim() == '') {
-				uni.showToast({
-					title: '请填已远程解决任务的内容',
-					icon: 'none'
-				});
-				return false;
-			}
-			let data = {
-				Id: this.Data.Dto.ID,
-				Str: this.task_textarea
+				popup_task: false,
+				task_textarea: ''
 			};
-			//
-			this.API_POST('WO/RemoteCompanyEquInstallOrder', data).then((rv) => {
+		},
+		components: {
+			UploadPictures
+		},
+		created() {
+			this.initdata();
+			this.obtainEngineer();
+		},
+		methods: {
+
+			// 查看物流
+			view_logistics(code) {
+				console.log(code)
 				uni.navigateTo({
-					url: '../work.6'
-				});
-			});
-		},
-
-		ReturnBase64: function (value) {
-			var Base = value.Data[0];
-			var that = this;
-			var obj = {
-				url: that.$store.state.url + 'WO/EIDelOldEqu',
-				method: 'POST',
-				data: {
-					Id: that.$store.state.InstallationTaskres,
-					FileStr: Base
-				},
-				header: that.$store.state.token
-			};
-			that.$http(obj)
-				.then((res) => {
-					this.$refs.uToast.show({
-						title: '上传成功!',
-						type: 'success'
-					});
-					this.initdata();
+					url: '/pages/home/works/InstallationTask/sf_express?sf_express=' + code
 				})
-				.catch((err) => {
-					this.$refs.uToast.show({
-						title: '上传失败!',
-						type: 'error'
+			},
+
+			// 远程完成出发和到达
+			RemoteProcessingTask() {
+				console.log(this.task_textarea);
+				if (this.task_textarea.trim() == '') {
+					uni.showToast({
+						title: '请填已远程解决任务的内容',
+						icon: 'none'
+					});
+					return false;
+				}
+				let data = {
+					Id: this.Data.Dto.ID,
+					Str: this.task_textarea
+				};
+				//
+				this.API_POST('WO/RemoteCompanyEquInstallOrder', data).then((rv) => {
+					uni.navigateTo({
+						url: '../work.6'
 					});
 				});
-		},
-		// 预览图片
-		previewImage: function (url) {
-			uni.previewImage({
-				urls: [url]
-			});
-		},
-		// 打电话
-		Tel: function (str) {
-			uni.makePhoneCall({
-				phoneNumber: str
-			});
-		},
+			},
 
-		ConfirmSending: function () {
-			var Data = [];
-			this.SendBackData.forEach(function (item) {
-				if (item.Recovery && item.Number != 0) {
-					Data.push({
-						ProductId: item.ProductId,
-						Number: item.Number
-					});
-				}
-			});
-
-			console.log(Data);
-			console.log(this.Data.Dto.ID);
-			if (Data.length == 0) {
-				uni.showToast({
-					title: '请添加需要寄回的物品数量！',
-					icon: 'none'
-				});
-				return false;
-			}
-
-			var obj = {
-				url: this.$store.state.url + 'WO/CreateRecovery',
-				method: 'POST',
-				data: {
-					EquInstallOrderId: this.Data.Dto.ID,
-					Logistic: this.mobile,
-					RecoveryGoodDtos: Data
-				},
-				header: this.$store.state.token
-			};
-			this.$http(obj).then((res) => {
-				console.log(res.Data);
-				uni.showToast({
-					title: '寄回成功!',
-					icon: 'none'
-				});
-				this.OldPieces = false;
-			});
-		},
-		// 打开寄出弹窗
-		ClickOldPieces: function () {
-			console.log(this.SendBackData);
-			this.OldPieces = true;
-		},
-		// 初始数据
-		initdata: function () {
-			var COdeurl = '';
-			if (this.$store.state.InstallationTaskresIndex == 1) {
-				COdeurl = this.$store.state.url + 'WO/GetEquInstallOrder';
-			} else {
-				COdeurl = this.$store.state.url + 'WO/GetEquInstallOrderItem';
-			}
-			var obj = {
-				url: COdeurl,
-				method: 'GET',
-				data: {
-					id: this.$store.state.InstallationTaskres
-				},
-				header: this.$store.state.token
-			};
-			this.$http(obj).then((res) => {
-				console.log(res.Data);
-				this.Data = res.Data;
-
-				for (var i = 0; i < this.Data.DelOldEquDtos.length; i++) {
-					var item = this.Data.DelOldEquDtos[i];
-					item.Image = 'http://icms.inchwell.com.cn/file/EIDelOldEqu/' + item.Image;
-				}
-				console.log(this.Data.DelOldEquDtos);
-				this.SendBackData = JSON.parse(JSON.stringify(this.Data.EquDtos));
-				var Time = this.Data.Dto;
-				Time.CreateDate = this.timeLv(Time.CreateDate);
-				Time.DeliveryDate = this.timeLv(Time.DeliveryDate);
-				Time.AcceptDate = this.timeLv(Time.AcceptDate);
-				Time.GotoDate = this.timeLv(Time.GotoDate);
-				Time.ArriveDate = this.timeLv(Time.ArriveDate);
-				Time.CompleteDate = this.timeLv(Time.CompleteDate);
-			});
-		},
-		// 打开附件
-		PDF: function (item) {
-			this.$store.state.webviewurl = item.Url;
-			uni.navigateTo({
-				url: '../../../../components/webview/webview'
-			});
-		},
-		//时间过滤
-		timeLv: function (res) {
-			if (res == null || res == '') {
-				return ' - - ';
-			} else {
-				return res.split('T')[0];
-			}
-		},
-
-		// 获取gcs
-		obtainEngineer: function () {
-			this.API_GET('System/GetEmployeeMini', { type: '1' }).then((rv) => {
-				console.log(rv);
-				this.gcss = rv.Data;
-				for (var i = 0; i < this.gcss.length; i++) {
-					this.$set(this.gcss[i], 'switch', false);
-				}
-			});
-		},
-
-		// 选择工程师的按钮 需要动态改变
-		switchs: function (i) {
-			this.$set(this.gcss[i], 'switch', !this.gcss[i].switch);
-		},
-
-		// 点击指派事件
-		assign: function () {
-			// 收集已选择的数据
-			let engineerAssembly = (this.gcss || []).filter((item) => item.switch).map((item) => item.EmployeeId);
-
-			// 检查是否未选择
-			if (engineerAssembly.length == 0) return uni.showToast({ title: '请选择工程师', icon: 'none' });
-
-			// 开启接口
-			let data = {
-				Id: this.Data.Dto.ID,
-				Str: engineerAssembly.toString()
-			};
-			this.API_POST('WO/DeliveryEquInstallOrder', data).then((rv) => {
-				uni.navigateTo({ url: '../work.6' });
-			});
-		},
-
-		Upimg: function () {
-			if (this.Str == '') {
-				uni.showToast({
-					title: '请输入工作内容！',
-					icon: 'none'
-				});
-				return false;
-			}
-			// 是否存在培训室图片
-			if (this.Data.Dto && this.Data.Dto.State == 7 && this.Data.Dto.TypeStr == '培训室拆装服务') {
-				console.log(this.Data.Dto.TypeStr);
-				let files = [];
-				files = this.$refs.uUpload.lists;
-				console.log(files);
-				if (files.length != 0) {
-					this.imgLength = files.length;
-					for (var i = 0; i < files.length; i++) {
-						this.$refs.uTips.show({
-							title: '正在上传第' + i + '张图片！',
-							type: 'success',
-							duration: '1000'
+			ReturnBase64: function(value) {
+				var Base = value.Data[0];
+				var that = this;
+				var obj = {
+					url: that.$store.state.url + 'WO/EIDelOldEqu',
+					method: 'POST',
+					data: {
+						Id: that.$store.state.InstallationTaskres,
+						FileStr: Base
+					},
+					header: that.$store.state.token
+				};
+				that.$http(obj)
+					.then((res) => {
+						this.$refs.uToast.show({
+							title: '上传成功!',
+							type: 'success'
 						});
+						this.initdata();
+					})
+					.catch((err) => {
+						this.$refs.uToast.show({
+							title: '上传失败!',
+							type: 'error'
+						});
+					});
+			},
+			// 预览图片
+			previewImage: function(url) {
+				uni.previewImage({
+					urls: [url]
+				});
+			},
+			// 打电话
+			Tel: function(str) {
+				uni.makePhoneCall({
+					phoneNumber: str
+				});
+			},
 
-						pathToBase64(files[i].url)
-							.then((base64) => {
-								this.UpimgData(base64);
-							})
-							.catch((error) => {
-								console.error(error);
+			ConfirmSending: function() {
+				var Data = [];
+				this.SendBackData.forEach(function(item) {
+					if (item.Recovery && item.Number != 0) {
+						Data.push({
+							ProductId: item.ProductId,
+							Number: item.Number
+						});
+					}
+				});
+
+				console.log(Data);
+				console.log(this.Data.Dto.ID);
+				if (Data.length == 0) {
+					uni.showToast({
+						title: '请添加需要寄回的物品数量！',
+						icon: 'none'
+					});
+					return false;
+				}
+
+				var obj = {
+					url: this.$store.state.url + 'WO/CreateRecovery',
+					method: 'POST',
+					data: {
+						EquInstallOrderId: this.Data.Dto.ID,
+						Logistic: this.mobile,
+						RecoveryGoodDtos: Data
+					},
+					header: this.$store.state.token
+				};
+				this.$http(obj).then((res) => {
+					console.log(res.Data);
+					uni.showToast({
+						title: '寄回成功!',
+						icon: 'none'
+					});
+					this.OldPieces = false;
+				});
+			},
+			// 打开寄出弹窗
+			ClickOldPieces: function() {
+				console.log(this.SendBackData);
+				this.OldPieces = true;
+			},
+
+			extractTrackingNumber(str) {
+				if (typeof str !== 'string') return '';
+
+				const match = str.match(/物流单号\[(.*?)\]/);
+				return match ? match[1] : '';
+			},
+			// 初始数据
+			initdata() {
+
+
+
+				var COdeurl = '';
+				if (this.$store.state.InstallationTaskresIndex == 1) {
+					COdeurl = this.$store.state.url + 'WO/GetEquInstallOrder';
+				} else {
+					COdeurl = this.$store.state.url + 'WO/GetEquInstallOrderItem';
+				}
+				var obj = {
+					url: COdeurl,
+					method: 'GET',
+					data: {
+						id: this.$store.state.InstallationTaskres
+					},
+					header: this.$store.state.token
+				};
+				this.$http(obj).then((res) => {
+					console.log(res.Data);
+					this.Data = res.Data;
+
+					for (var i = 0; i < this.Data.DelOldEquDtos.length; i++) {
+						var item = this.Data.DelOldEquDtos[i];
+						item.Image = 'http://icms.inchwell.com.cn/file/EIDelOldEqu/' + item.Image;
+					}
+
+					// 分割出物流单号
+					this.Data.Dto.TrackingNumber = this.extractTrackingNumber(this.Data.Dto.Origin)
+					console.log(this.Data.Dto.TrackingNumber)
+
+					// 
+					this.SendBackData = JSON.parse(JSON.stringify(this.Data.EquDtos));
+					var Time = this.Data.Dto;
+					Time.CreateDate = this.timeLv(Time.CreateDate);
+					Time.DeliveryDate = this.timeLv(Time.DeliveryDate);
+					Time.AcceptDate = this.timeLv(Time.AcceptDate);
+					Time.GotoDate = this.timeLv(Time.GotoDate);
+					Time.ArriveDate = this.timeLv(Time.ArriveDate);
+					Time.CompleteDate = this.timeLv(Time.CompleteDate);
+				});
+			},
+			// 打开附件
+			PDF: function(item) {
+				this.$store.state.webviewurl = item.Url;
+				uni.navigateTo({
+					url: '../../../../components/webview/webview'
+				});
+			},
+			//时间过滤
+			timeLv: function(res) {
+				if (res == null || res == '') {
+					return ' - - ';
+				} else {
+					return res.split('T')[0];
+				}
+			},
+
+			// 获取gcs
+			obtainEngineer: function() {
+				this.API_GET('System/GetEmployeeMini', { type: '1' }).then((rv) => {
+					console.log(rv);
+					this.gcss = rv.Data;
+					for (var i = 0; i < this.gcss.length; i++) {
+						this.$set(this.gcss[i], 'switch', false);
+					}
+				});
+			},
+
+			// 选择工程师的按钮 需要动态改变
+			switchs: function(i) {
+				this.$set(this.gcss[i], 'switch', !this.gcss[i].switch);
+			},
+
+			// 点击指派事件
+			assign: function() {
+				// 收集已选择的数据
+				let engineerAssembly = (this.gcss || []).filter((item) => item.switch).map((item) => item.EmployeeId);
+
+				// 检查是否未选择
+				if (engineerAssembly.length == 0) return uni.showToast({ title: '请选择工程师', icon: 'none' });
+
+				// 开启接口
+				let data = {
+					Id: this.Data.Dto.ID,
+					Str: engineerAssembly.toString()
+				};
+				this.API_POST('WO/DeliveryEquInstallOrder', data).then((rv) => {
+					uni.navigateTo({ url: '../work.6' });
+				});
+			},
+
+			Upimg: function() {
+				if (this.Str == '') {
+					uni.showToast({
+						title: '请输入工作内容！',
+						icon: 'none'
+					});
+					return false;
+				}
+				// 是否存在培训室图片
+				if (this.Data.Dto && this.Data.Dto.State == 7 && this.Data.Dto.TypeStr == '培训室拆装服务') {
+					console.log(this.Data.Dto.TypeStr);
+					let files = [];
+					files = this.$refs.uUpload.lists;
+					console.log(files);
+					if (files.length != 0) {
+						this.imgLength = files.length;
+						for (var i = 0; i < files.length; i++) {
+							this.$refs.uTips.show({
+								title: '正在上传第' + i + '张图片！',
+								type: 'success',
+								duration: '1000'
 							});
+
+							pathToBase64(files[i].url)
+								.then((base64) => {
+									this.UpimgData(base64);
+								})
+								.catch((error) => {
+									console.error(error);
+								});
+						}
+					} else {
+						this.GOgcs(8);
 					}
 				} else {
 					this.GOgcs(8);
 				}
-			} else {
-				this.GOgcs(8);
-			}
-		},
-		UpimgData: function (base64) {
-			console.log('上传了一次！----------------------');
-			var obj = {
-				url: this.$store.state.url + 'WO/UploadEIImage',
-				method: 'POST',
-				header: this.$store.state.token,
-				data: {
-					Id: this.Data.Dto.ID,
-					FileStr: base64,
-					Type: 1
-				}
-			};
-			this.$http(obj).then((res) => {
-				this.imgLength -= 1;
-				if (this.imgLength == 0) {
-					this.GOgcs(8);
-				}
-			});
-		},
-		// 工程师操作
-		GOgcs: function (code) {
-			if (code == 8) {
+			},
+			UpimgData: function(base64) {
+				console.log('上传了一次！----------------------');
 				var obj = {
-					url: this.$store.state.url + 'WO/CompanyEquInstallOrder',
+					url: this.$store.state.url + 'WO/UploadEIImage',
 					method: 'POST',
 					header: this.$store.state.token,
 					data: {
 						Id: this.Data.Dto.ID,
-						Str: this.Str
+						FileStr: base64,
+						Type: 1
+					}
+				};
+				this.$http(obj).then((res) => {
+					this.imgLength -= 1;
+					if (this.imgLength == 0) {
+						this.GOgcs(8);
+					}
+				});
+			},
+			// 工程师操作
+			GOgcs: function(code) {
+				if (code == 8) {
+					var obj = {
+						url: this.$store.state.url + 'WO/CompanyEquInstallOrder',
+						method: 'POST',
+						header: this.$store.state.token,
+						data: {
+							Id: this.Data.Dto.ID,
+							Str: this.Str
+						}
+					};
+					this.$http(obj).then((res) => {
+						console.log(res);
+						uni.navigateTo({
+							url: '../work.6'
+						});
+					});
+					return false;
+				}
+				var obj = {
+					url: this.$store.state.url + 'WO/UpdateEquInstallOrder',
+					method: 'POST',
+					header: this.$store.state.token,
+					data: {
+						Id: this.Data.Dto.ID,
+						State: code
 					}
 				};
 				this.$http(obj).then((res) => {
@@ -528,516 +573,503 @@ export default {
 						url: '../work.6'
 					});
 				});
-				return false;
 			}
-			var obj = {
-				url: this.$store.state.url + 'WO/UpdateEquInstallOrder',
-				method: 'POST',
-				header: this.$store.state.token,
-				data: {
-					Id: this.Data.Dto.ID,
-					State: code
-				}
-			};
-			this.$http(obj).then((res) => {
-				console.log(res);
-				uni.navigateTo({
-					url: '../work.6'
-				});
-			});
 		}
-	}
-};
+	};
 </script>
 
 <style lang="scss" scoped>
-.box {
-	background-color: #ffffff;
+	.box {
+		background-color: #ffffff;
 
-	// 寄回物品 item
-	.SendBackItem {
-		width: 90%;
-		min-height: 50px;
-		margin: auto;
-		border-radius: 5px;
-		margin-top: 10px;
-		padding: 10px;
-		box-sizing: border-box;
-		-webkit-box-shadow: 3px 3px 6px #c1c1c1;
-		-moz-box-shadow: 3px 3px 6px #c1c1c1;
-		box-shadow: 3px 3px 6px #c1c1c1;
-	}
-}
-
-.ShangChuanImg {
-	width: 100px;
-	height: 100px;
-	border-radius: 10px;
-	margin: 10px;
-	box-sizing: border-box;
-	color: #5f5f5f;
-	float: left;
-}
-
-.locknone {
-	overflow: hidden;
-}
-
-.pdf {
-	width: 30px;
-	height: 30px;
-	display: block;
-	float: left;
-	margin: 10px;
-}
-
-.titles {
-	width: 100%;
-	height: 20px;
-	background-color: #90beeb;
-	font-weight: bolder;
-	color: #000000;
-	padding-left: 20px;
-	line-height: 20px;
-	box-sizing: border-box;
-	float: left;
-}
-
-.item {
-	width: 100%;
-	height: 30px;
-	border-bottom: 1px solid #c8c7cc;
-	box-sizing: border-box;
-
-	text {
-		line-height: 30px;
-		padding-left: 10px;
-		box-sizing: border-box;
+		// 寄回物品 item
+		.SendBackItem {
+			width: 90%;
+			min-height: 50px;
+			margin: auto;
+			border-radius: 5px;
+			margin-top: 10px;
+			padding: 10px;
+			box-sizing: border-box;
+			-webkit-box-shadow: 3px 3px 6px #c1c1c1;
+			-moz-box-shadow: 3px 3px 6px #c1c1c1;
+			box-shadow: 3px 3px 6px #c1c1c1;
+		}
 	}
 
-	.lefttext {
-		width: 30%;
-		display: block;
+	.ShangChuanImg {
+		width: 100px;
+		height: 100px;
+		border-radius: 10px;
+		margin: 10px;
+		box-sizing: border-box;
+		color: #5f5f5f;
 		float: left;
 	}
-}
 
-.lickgcs {
-	width: 90%;
-	float: left;
-	margin-left: 5%;
-	margin-top: 30px;
-	margin-bottom: 70px;
-}
-
-.lickgcss {
-	width: 90%;
-	float: left;
-	margin-left: 5%;
-	margin-top: 30px;
-}
-
-.content {
-	padding: 24rpx;
-	text-align: center;
-	box-sizing: border-box;
-
-	button {
-		float: right;
+	.locknone {
+		overflow: hidden;
 	}
 
-	.ListView {
-		height: 360px;
+	.pdf {
+		width: 30px;
+		height: 30px;
+		display: block;
+		float: left;
+		margin: 10px;
 	}
-}
 
-// 000000000000000000000000000000000000000000000000000
-
-.gcs {
-	width: 80%;
-	height: 300px;
-	background-color: #dde0e4;
-	position: fixed;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	margin: auto;
-	border-radius: 10px;
-	box-sizing: border-box;
-	z-index: 250;
-	-webkit-box-shadow: 0px 3px 3px #c8c8c8;
-	-moz-box-shadow: 0px 3px 3px #c8c8c8;
-	box-shadow: 2px 6px 6px #c8c8c8;
-
-	.title_Top {
+	.titles {
 		width: 100%;
-		height: 50px;
-		padding: 0 10px;
-		line-height: 50px;
+		height: 20px;
+		background-color: #90beeb;
+		font-weight: bolder;
+		color: #000000;
+		padding-left: 20px;
+		line-height: 20px;
 		box-sizing: border-box;
-		text-align: center;
-		line-height: 50px;
-		font-size: 20px;
-		font-weight: bold;
-		background-color: #dde0e4;
+		float: left;
 	}
 
-	.gcss {
+	.item {
 		width: 100%;
-		height: 200px;
-		overflow: auto;
+		height: 30px;
+		border-bottom: 1px solid #c8c7cc;
+		box-sizing: border-box;
 
-		.bottomone {
+		text {
+			line-height: 30px;
+			padding-left: 10px;
+			box-sizing: border-box;
+		}
+
+		.lefttext {
+			width: 30%;
+			display: block;
+			float: left;
+		}
+	}
+
+	.lickgcs {
+		width: 90%;
+		float: left;
+		margin-left: 5%;
+		margin-top: 30px;
+		margin-bottom: 70px;
+	}
+
+	.lickgcss {
+		width: 90%;
+		float: left;
+		margin-left: 5%;
+		margin-top: 30px;
+	}
+
+	.content {
+		padding: 24rpx;
+		text-align: center;
+		box-sizing: border-box;
+
+		button {
+			float: right;
+		}
+
+		.ListView {
+			height: 360px;
+		}
+	}
+
+	// 000000000000000000000000000000000000000000000000000
+
+	.gcs {
+		width: 80%;
+		height: 300px;
+		background-color: #dde0e4;
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		border-radius: 10px;
+		box-sizing: border-box;
+		z-index: 250;
+		-webkit-box-shadow: 0px 3px 3px #c8c8c8;
+		-moz-box-shadow: 0px 3px 3px #c8c8c8;
+		box-shadow: 2px 6px 6px #c8c8c8;
+
+		.title_Top {
 			width: 100%;
-			height: 85%;
+			height: 50px;
+			padding: 0 10px;
+			line-height: 50px;
+			box-sizing: border-box;
+			text-align: center;
+			line-height: 50px;
+			font-size: 20px;
+			font-weight: bold;
 			background-color: #dde0e4;
+		}
 
-			.topone {
+		.gcss {
+			width: 100%;
+			height: 200px;
+			overflow: auto;
+
+			.bottomone {
 				width: 100%;
-				height: 30px;
-				padding: 10px;
+				height: 85%;
+				background-color: #dde0e4;
 
-				button {
-					float: right;
-					margin-right: 30px;
-				}
-			}
-
-			.bomone {
-				width: 100%;
-				height: calc(100% - 30px);
-				padding-bottom: 20px;
-				box-sizing: border-box;
-
-				.kuang {
-					width: 80%;
+				.topone {
+					width: 100%;
 					height: 30px;
-					margin-left: 10%;
-					margin-top: 3px;
+					padding: 10px;
 
-					switch {
+					button {
 						float: right;
+						margin-right: 30px;
+					}
+				}
+
+				.bomone {
+					width: 100%;
+					height: calc(100% - 30px);
+					padding-bottom: 20px;
+					box-sizing: border-box;
+
+					.kuang {
+						width: 80%;
+						height: 30px;
+						margin-left: 10%;
+						margin-top: 3px;
+
+						switch {
+							float: right;
+						}
 					}
 				}
 			}
 		}
-	}
 
-	button {
-		margin-left: 40%;
-		margin-top: 10px;
-	}
-}
-
-.basicinformation {
-	width: 95%;
-	background: #ffffff;
-	margin: auto;
-	border-radius: 10px;
-	margin-top: 10px;
-	margin-left: 2.5%;
-	margin-bottom: 10px;
-	border: 1px solid #c0c0c0;
-	float: left;
-
-	.Task1 {
-		width: 95%;
-		margin: auto;
-		box-sizing: border-box;
-		background-color: #007aff;
-
-		.head {
-			//蓝色标题
-			width: 80%;
-			height: 25px;
-			background-color: #007aff;
-			color: #ffffff;
-			border-radius: 5px;
-			font-weight: bold;
-			overflow: hidden;
-			line-height: 25px;
-			padding-left: 15px;
-			box-sizing: border-box;
-			font-size: 13px;
-			float: left;
+		button {
+			margin-left: 40%;
+			margin-top: 10px;
 		}
+	}
 
-		.ps {
-			width: 25px;
-			height: 25px;
-			line-height: 25px;
+	.basicinformation {
+		width: 95%;
+		background: #ffffff;
+		margin: auto;
+		border-radius: 10px;
+		margin-top: 10px;
+		margin-left: 2.5%;
+		margin-bottom: 10px;
+		border: 1px solid #c0c0c0;
+		float: left;
+
+		.Task1 {
+			width: 95%;
+			margin: auto;
 			box-sizing: border-box;
-			float: left;
-			margin-left: 20px;
+			background-color: #007aff;
 
-			image {
-				display: block;
+			.head {
+				//蓝色标题
+				width: 80%;
+				height: 25px;
+				background-color: #007aff;
+				color: #ffffff;
+				border-radius: 5px;
+				font-weight: bold;
+				overflow: hidden;
+				line-height: 25px;
+				padding-left: 15px;
+				box-sizing: border-box;
+				font-size: 13px;
+				float: left;
+			}
+
+			.ps {
 				width: 25px;
 				height: 25px;
+				line-height: 25px;
+				box-sizing: border-box;
+				float: left;
+				margin-left: 20px;
+
+				image {
+					display: block;
+					width: 25px;
+					height: 25px;
+					float: left;
+				}
+			}
+
+			.EquPhotos {
+				//照片组
+				width: 100%;
+				height: 135px;
+				background-color: #d8d8d8;
+				border-radius: 10px;
+				float: left;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				padding: 5px;
+				box-sizing: border-box;
+
+				.texts {
+					width: 100%;
+					height: 20px;
+					line-height: 20px;
+					font-size: 13px;
+					font-weight: bold;
+
+					image {
+						width: 20px;
+						height: 20px;
+						float: right;
+					}
+				}
+
+				.pushimg {
+					width: 100%;
+					height: 105px;
+
+					.left {
+						width: 105px;
+						height: 105px;
+						float: left;
+						margin-left: 20px;
+						overflow: hidden;
+
+						.images {
+							width: 100%;
+							height: 100%;
+						}
+					}
+
+					.right {
+						margin-left: 60px;
+					}
+				}
+			}
+		}
+
+		.text {
+			width: 95%;
+			height: 30px;
+			display: block;
+			margin: auto;
+			line-height: 30px;
+
+			.span {
+				width: 100px;
+				display: block;
+				height: 100%;
 				float: left;
 			}
 		}
 
-		.EquPhotos {
-			//照片组
+		.text2 {
+			width: 95%;
+			min-height: 30px;
+			display: block;
+			margin: auto;
+			line-height: 30px;
+
+			.span {
+				width: 100px;
+				display: block;
+				height: 100%;
+				float: left;
+			}
+		}
+
+		.textx {
+			width: 95%;
+			display: block;
+			margin: auto;
+			line-height: 30px;
+
+			.span {
+				width: 100px;
+				display: block;
+				height: 100%;
+				float: left;
+			}
+		}
+	}
+
+	.cu-form-groupas {
+		height: 40px;
+		padding: 0;
+		float: left;
+	}
+
+	.cu-form-group {
+		width: 95%;
+		background: #ffffff;
+		border: 1px solid #ccc;
+		box-sizing: border-box;
+		padding: 10px;
+		color: #999999;
+		margin: auto;
+		border-radius: 10px;
+		margin-top: 10px;
+		float: left;
+		margin-left: 2.5%;
+
+		.title {
 			width: 100%;
-			height: 135px;
-			background-color: #d8d8d8;
-			border-radius: 10px;
+			display: block;
+			color: #333333;
+		}
+
+		.red {
+			color: red;
+		}
+
+		input {
+			font-size: 14px;
+		}
+	}
+
+	.align-start {
+		.title {
+			font-weight: bold;
+		}
+
+		uni-textarea {
+			margin-top: 20px;
+		}
+	}
+
+	.button {
+		width: 80%;
+		display: block;
+		background-color: #007aff;
+		color: #ffffff;
+		height: 50px;
+		text-align: center;
+		line-height: 50px;
+		margin-top: 50px;
+		border-radius: 10px;
+		box-sizing: border-box;
+		font-size: 20px;
+		margin-bottom: 50px;
+		float: left;
+		margin-left: 10%;
+	}
+
+	.buttons {
+		width: 80%;
+		display: block;
+		margin: auto;
+		color: #ffffff;
+		height: 50px;
+		text-align: center;
+		line-height: 50px;
+		margin-top: 50px;
+		box-sizing: border-box;
+		margin-bottom: 50px;
+
+		.jie {
+			width: 40%;
+			height: 80%;
+			float: right;
+			background-color: #007aff;
+			line-height: 40px;
+			border-radius: 5px;
+		}
+
+		.jujue {
+			width: 40%;
+			height: 80%;
 			float: left;
-			margin-top: 10px;
-			margin-bottom: 10px;
-			padding: 5px;
+			background-color: #ff0000;
+			line-height: 40px;
+			border-radius: 5px;
+		}
+	}
+
+	.bottomone {
+		width: 100%;
+		height: 85%;
+		background-color: #ffffff;
+
+		// overflow: auto;
+		.topone {
+			width: 100%;
+			height: 30px;
+			padding: 10px;
+
+			button {
+				float: right;
+				margin-right: 30px;
+			}
+		}
+
+		.bomone {
+			width: 100%;
+			height: calc(100% - 30px);
+			padding-bottom: 20px;
 			box-sizing: border-box;
 
-			.texts {
-				width: 100%;
-				height: 20px;
-				line-height: 20px;
-				font-size: 13px;
-				font-weight: bold;
+			.kuang {
+				width: 50%;
+				height: 30px;
+				margin-left: 20%;
+				margin-top: 3px;
 
-				image {
-					width: 20px;
-					height: 20px;
+				switch {
 					float: right;
 				}
 			}
-
-			.pushimg {
-				width: 100%;
-				height: 105px;
-
-				.left {
-					width: 105px;
-					height: 105px;
-					float: left;
-					margin-left: 20px;
-					overflow: hidden;
-
-					.images {
-						width: 100%;
-						height: 100%;
-					}
-				}
-
-				.right {
-					margin-left: 60px;
-				}
-			}
 		}
 	}
 
-	.text {
+	.uni-textarea {
 		width: 95%;
-		height: 30px;
-		display: block;
+		border-radius: 10px;
 		margin: auto;
-		line-height: 30px;
-
-		.span {
-			width: 100px;
-			display: block;
-			height: 100%;
-			float: left;
-		}
-	}
-
-	.text2 {
-		width: 95%;
-		min-height: 30px;
-		display: block;
-		margin: auto;
-		line-height: 30px;
-
-		.span {
-			width: 100px;
-			display: block;
-			height: 100%;
-			float: left;
-		}
-	}
-
-	.textx {
-		width: 95%;
-		display: block;
-		margin: auto;
-		line-height: 30px;
-
-		.span {
-			width: 100px;
-			display: block;
-			height: 100%;
-			float: left;
-		}
-	}
-}
-
-.cu-form-groupas {
-	height: 40px;
-	padding: 0;
-	float: left;
-}
-
-.cu-form-group {
-	width: 95%;
-	background: #ffffff;
-	border: 1px solid #ccc;
-	box-sizing: border-box;
-	padding: 10px;
-	color: #999999;
-	margin: auto;
-	border-radius: 10px;
-	margin-top: 10px;
-	float: left;
-	margin-left: 2.5%;
-
-	.title {
-		width: 100%;
-		display: block;
-		color: #333333;
-	}
-	.red {
-		color: red;
-	}
-
-	input {
-		font-size: 14px;
-	}
-}
-
-.align-start {
-	.title {
-		font-weight: bold;
-	}
-
-	uni-textarea {
-		margin-top: 20px;
-	}
-}
-
-.button {
-	width: 80%;
-	display: block;
-	background-color: #007aff;
-	color: #ffffff;
-	height: 50px;
-	text-align: center;
-	line-height: 50px;
-	margin-top: 50px;
-	border-radius: 10px;
-	box-sizing: border-box;
-	font-size: 20px;
-	margin-bottom: 50px;
-	float: left;
-	margin-left: 10%;
-}
-
-.buttons {
-	width: 80%;
-	display: block;
-	margin: auto;
-	color: #ffffff;
-	height: 50px;
-	text-align: center;
-	line-height: 50px;
-	margin-top: 50px;
-	box-sizing: border-box;
-	margin-bottom: 50px;
-
-	.jie {
-		width: 40%;
-		height: 80%;
-		float: right;
-		background-color: #007aff;
-		line-height: 40px;
-		border-radius: 5px;
-	}
-
-	.jujue {
-		width: 40%;
-		height: 80%;
-		float: left;
-		background-color: #ff0000;
-		line-height: 40px;
-		border-radius: 5px;
-	}
-}
-
-.bottomone {
-	width: 100%;
-	height: 85%;
-	background-color: #ffffff;
-
-	// overflow: auto;
-	.topone {
-		width: 100%;
-		height: 30px;
-		padding: 10px;
-
-		button {
-			float: right;
-			margin-right: 30px;
-		}
-	}
-
-	.bomone {
-		width: 100%;
-		height: calc(100% - 30px);
-		padding-bottom: 20px;
-		box-sizing: border-box;
-
-		.kuang {
-			width: 50%;
-			height: 30px;
-			margin-left: 20%;
-			margin-top: 3px;
-
-			switch {
-				float: right;
-			}
-		}
-	}
-}
-
-.uni-textarea {
-	width: 95%;
-	border-radius: 10px;
-	margin: auto;
-	height: 200px;
-	margin-top: 10px;
-	background-color: #ffffff;
-	overflow: auto;
-	padding: 5px;
-	box-sizing: border-box;
-	font-size: 15px;
-}
-
-.buts {
-	width: 100%;
-	margin: 50px 0;
-	display: flex;
-	justify-content: center;
-
-	button {
-		height: none;
-	}
-}
-//
-.popup_task {
-	width: 100%;
-	height: 300px;
-	.popup_task_header {
-		width: 100%;
-		height: 50px;
-		line-height: 50px;
+		height: 200px;
+		margin-top: 10px;
+		background-color: #ffffff;
+		overflow: auto;
 		padding: 5px;
 		box-sizing: border-box;
+		font-size: 15px;
 	}
-	.popup_task_content {
+
+	.buts {
 		width: 100%;
-		height: calc(100% - 50px);
+		margin: 50px 0;
+		display: flex;
+		justify-content: center;
+
+		button {
+			height: none;
+		}
 	}
-}
+
+	//
+	.popup_task {
+		width: 100%;
+		height: 300px;
+
+		.popup_task_header {
+			width: 100%;
+			height: 50px;
+			line-height: 50px;
+			padding: 5px;
+			box-sizing: border-box;
+		}
+
+		.popup_task_content {
+			width: 100%;
+			height: calc(100% - 50px);
+		}
+	}
 </style>
