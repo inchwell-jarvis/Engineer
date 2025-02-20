@@ -43,7 +43,29 @@
 		methods: {
 			start() {
 				//
-				this.API_GET('system/GetSFWuLiu', { logisticsorderNo: this.sf_express }).then((rv) => {
+				// this.API_GET('system/GetSFWuLiu', { logisticsorderNo: this.sf_express }).then((rv) => {
+				// 	console.log(rv)
+
+				// 	this.routes = rv.Data[0].routes
+				// 	if (this.routes.length) {
+				// 		this.routes = this.routes.reverse().map((item, index, array) => {
+				// 			if (index > 0 && item.firstStatusName === array[index - 1].firstStatusName) {
+				// 				return { ...item, firstStatusName: "" };
+				// 			}
+				// 			return item;
+				// 		});
+				// 	}
+				// 	console.log(this.routes)
+				// 	// 如果没有发货
+				// 	if (this.routes.length == 0) {
+				// 		this.routes = [{
+				// 			firstStatusName: '未发货',
+				// 			remark: '未查询相关物流信息！'
+				// 		}]
+				// 	}
+				// });
+
+				this.apix('system/GetSFWuLiu', { logisticsorderNo: this.sf_express }, { interface_header: 'http://39.100.116.85:6001/api/' }).then((rv) => {
 					console.log(rv)
 
 					this.routes = rv.Data[0].routes
@@ -64,6 +86,7 @@
 						}]
 					}
 				});
+
 			},
 
 			format_date_time(dateTimeStr) {

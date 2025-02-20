@@ -9,6 +9,7 @@ const LOGIN_PAGE_URL = '../pages/signIn/index';
  * @param {string} http - 接口地址
  * @param {object} [data={}] - 请求数据
  * @param {object} [methods={}] - 请求方法，默认是 GET
+ * @param {string} [methods.interface_header=''] - 重写HTTP请求头，默认为空
  * @returns {Promise} - 返回一个 Promise 对象
  */
 
@@ -19,10 +20,9 @@ export default async function apix(http, data = {}, methods = {}) {
 			key: TOKEN_KEY,
 			success: function(res) {
 				let headerToken = res.data;
-
 				// 调接口
 				uni.request({
-					url: `${$store.state.url}${http}`,
+					url: `${methods.interface_header || $store.state.url}${http}`,
 					method: methods.method || 'GET',
 					header: {
 						'token': headerToken
